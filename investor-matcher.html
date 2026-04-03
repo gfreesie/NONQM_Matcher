@@ -2023,7 +2023,7 @@
           </div>
           <div class="detail-row">
             <span class="detail-key">Min FICO</span>
-            <span class="detail-val">${FICO_LABELS[result.minFICO] || result.minFICO}</span>
+            <span class="detail-val">${result.minFICO}</span>
           </div>
           <div class="detail-row">
             <span class="detail-key">Occupancy</span>
@@ -2190,7 +2190,7 @@
         <span class="sc-inv-dot"></span>
         <span class="sc-inv-name">${inv.name}</span>
         <span class="sc-inv-stat">Max LTV <strong>${result.maxLTV}%</strong></span>
-        <span class="sc-inv-stat" style="margin-left:12px;">Min FICO <strong>${FICO_LABELS[result.minFICO] || result.minFICO}</strong></span>
+        <span class="sc-inv-stat" style="margin-left:12px;">Min FICO <strong>${result.minFICO}</strong></span>
       </div>`).join('');
 
     document.getElementById('processorNotes').value = '';
@@ -2340,7 +2340,7 @@
       // Stats
       c.fillStyle = 'rgba(248,245,240,0.45)';
       c.font = `11px 'Segoe UI', sans-serif`;
-      const statText = `Max LTV ${result.maxLTV}%   ·   Min FICO ${FICO_LABELS[result.minFICO] || result.minFICO}`;
+      const statText = `Max LTV ${result.maxLTV}%   ·   Min FICO ${result.minFICO}`;
       c.textAlign = 'right';
       c.fillText(statText, W - 30, y + 6);
       c.textAlign = 'left';
