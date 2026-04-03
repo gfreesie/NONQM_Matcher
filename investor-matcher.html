@@ -1070,6 +1070,26 @@
     }
     .signal-item.expanded .signal-arrow { transform: rotate(90deg); }
 
+    .signal-item.signal-hidden { display: none; }
+
+    .signals-more {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      width: 100%; padding: 11px 20px;
+      background: none; border: none; border-top: 1px solid rgba(255,255,255,0.045);
+      color: rgba(248,245,240,0.35); font-size: 10px; letter-spacing: 0.12em;
+      text-transform: uppercase; font-weight: 600; cursor: pointer;
+      transition: color 0.2s;
+    }
+    .signals-more:hover { color: rgba(248,245,240,0.65); }
+    .signals-more-arrow {
+      font-size: 9px;
+      transition: transform 0.3s;
+    }
+    .signals-more[aria-expanded="true"] .signals-more-arrow { transform: rotate(180deg); }
+    .signals-more[aria-expanded="true"] .signals-more-label::before { content: 'Show less'; }
+    .signals-more[aria-expanded="false"] .signals-more-label::before { content: 'Show more'; }
+    .signals-more-label { font: inherit; }
+
     /* ─── Results full-width row ─────────────────────────────────────────── */
     .results-row {
       width: 100%; max-width: 1260px;
@@ -1335,6 +1355,10 @@
         <span class="live-badge"><span class="live-dot"></span>Industry Feed</span>
       </div>
       <div class="signals-body" id="signalsFeed"></div>
+      <button class="signals-more" id="signalsMore" aria-expanded="false">
+        <span class="signals-more-label">Show more</span>
+        <span class="signals-more-arrow">▼</span>
+      </button>
     </div>
 
   </div><!-- /dashboard-right -->
@@ -2594,9 +2618,12 @@
 
   (function buildSignals() {
     const feed = document.getElementById('signalsFeed');
-    SIGNALS.forEach(s => {
+    const btn  = document.getElementById('signalsMore');
+    const VISIBLE = 3;
+
+    SIGNALS.forEach((s, i) => {
       const item = document.createElement('div');
-      item.className = 'signal-item';
+      item.className = 'signal-item' + (i >= VISIBLE ? ' signal-hidden' : '');
       item.innerHTML = `
         <div class="signal-top">
           <a class="signal-source" href="${s.url}" target="_blank" rel="noopener"
@@ -2609,12 +2636,20 @@
         <div class="signal-synopsis">${s.synopsis}</div>
         <span class="signal-arrow">▶</span>
       `;
-      // Expand on row click, but let the source link navigate freely
       item.addEventListener('click', e => {
         if (e.target.closest('.signal-source')) return;
         item.classList.toggle('expanded');
       });
       feed.appendChild(item);
+    });
+
+    // Show/hide extra items
+    btn.addEventListener('click', () => {
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      feed.querySelectorAll('.signal-item').forEach((el, i) => {
+        if (i >= VISIBLE) el.classList.toggle('signal-hidden', expanded);
+      });
+      btn.setAttribute('aria-expanded', String(!expanded));
     });
   })();
 
