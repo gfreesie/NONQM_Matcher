@@ -2948,6 +2948,7 @@
     let W = 0, H = 0;
     let mouseX = 0.5, mouseY = 0.5;
     let smoothX = 0.5, smoothY = 0.5;
+    const dim = window.matchMedia('(max-width: 768px)').matches ? 0.65 : 1.0;
 
     document.addEventListener('mousemove', e => {
       mouseX = e.clientX / window.innerWidth;
@@ -3045,8 +3046,8 @@
         ctx.beginPath();
         ctx.arc(sx, sy, s.r, 0, Math.PI * 2);
         ctx.fillStyle = s.gold
-          ? `rgba(232,184,75,${twinkle * 0.20})`
-          : `rgba(248,245,240,${twinkle * 0.24})`;
+          ? `rgba(232,184,75,${twinkle * 0.20 * dim})`
+          : `rgba(248,245,240,${twinkle * 0.24 * dim})`;
         ctx.fill();
       });
 
@@ -3082,7 +3083,7 @@
 
           // Soft glow halo
           const glow = ctx.createRadialGradient(nx, ny, 0, nx, ny, n.r * 5);
-          glow.addColorStop(0, `rgba(${rgb},${tw * alpha})`);
+          glow.addColorStop(0, `rgba(${rgb},${tw * alpha * dim})`);
           glow.addColorStop(1, 'rgba(0,0,0,0)');
           ctx.beginPath();
           ctx.arc(nx, ny, n.r * 5, 0, Math.PI * 2);
@@ -3092,7 +3093,7 @@
           // Core dot
           ctx.beginPath();
           ctx.arc(nx, ny, n.r, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(${rgb},${tw * (n.gold ? 0.75 : 0.65)})`;
+          ctx.fillStyle = `rgba(${rgb},${tw * (n.gold ? 0.75 : 0.65) * dim})`;
           ctx.fill();
         });
       });
@@ -3120,8 +3121,8 @@
 
         const grad = ctx.createLinearGradient(tx, ty, hx, hy);
         grad.addColorStop(0,   'rgba(255,255,255,0)');
-        grad.addColorStop(0.55,`rgba(232,184,75,${alpha * 0.45})`);
-        grad.addColorStop(1,   `rgba(255,255,255,${alpha})`);
+        grad.addColorStop(0.55,`rgba(232,184,75,${alpha * 0.45 * dim})`);
+        grad.addColorStop(1,   `rgba(255,255,255,${alpha * dim})`);
 
         ctx.beginPath();
         ctx.moveTo(tx, ty);
@@ -3132,7 +3133,7 @@
 
         // Bright head
         const headGlow = ctx.createRadialGradient(hx, hy, 0, hx, hy, 4);
-        headGlow.addColorStop(0, `rgba(255,255,255,${alpha * 0.9})`);
+        headGlow.addColorStop(0, `rgba(255,255,255,${alpha * 0.9 * dim})`);
         headGlow.addColorStop(1, 'rgba(255,255,255,0)');
         ctx.beginPath();
         ctx.arc(hx, hy, 4, 0, Math.PI * 2);
