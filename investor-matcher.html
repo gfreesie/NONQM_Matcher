@@ -1086,8 +1086,6 @@
       transition: transform 0.3s;
     }
     .signals-more[aria-expanded="true"] .signals-more-arrow { transform: rotate(180deg); }
-    .signals-more[aria-expanded="true"] .signals-more-label::before { content: 'Show less'; }
-    .signals-more[aria-expanded="false"] .signals-more-label::before { content: 'Show more'; }
     .signals-more-label { font: inherit; }
 
     /* ─── Results full-width row ─────────────────────────────────────────── */
@@ -2650,6 +2648,7 @@
         if (i >= VISIBLE) el.classList.toggle('signal-hidden', expanded);
       });
       btn.setAttribute('aria-expanded', String(!expanded));
+      btn.querySelector('.signals-more-label').textContent = expanded ? 'Show more' : 'Show less';
     });
   })();
 
