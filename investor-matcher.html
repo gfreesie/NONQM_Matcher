@@ -102,7 +102,7 @@
 
     /* ─── Layout ────────────────────────────────────────────────────────── */
     .page {
-      position: relative; z-index: 1;
+      position: relative; z-index: 2;
       min-height: 100vh;
       display: flex; flex-direction: column; align-items: center;
       padding: 36px 24px 80px;
@@ -825,6 +825,35 @@
     }
     .sc-inv-stat strong { color: rgba(248,245,240,0.85); }
 
+    .sc-inv-toggle {
+      width: 22px; height: 22px; flex-shrink: 0;
+      background: rgba(74,222,128,0.10);
+      border: 1px solid rgba(74,222,128,0.32);
+      border-radius: 50%;
+      color: #4ADE80;
+      font-size: 11px; line-height: 1;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.18s, border-color 0.18s, color 0.18s, transform 0.15s;
+      margin-left: 10px;
+    }
+    .sc-inv-toggle:hover { transform: scale(1.12); }
+
+    .sc-inv-row.excluded {
+      opacity: 0.38;
+      text-decoration: none;
+    }
+    .sc-inv-row.excluded .sc-inv-name { text-decoration: line-through; }
+    .sc-inv-row.excluded .sc-inv-dot {
+      background: rgba(248,113,113,0.7);
+      box-shadow: 0 0 5px rgba(248,113,113,0.4);
+    }
+    .sc-inv-row.excluded .sc-inv-toggle {
+      background: rgba(196,144,42,0.12);
+      border-color: rgba(196,144,42,0.38);
+      color: var(--gold-light);
+    }
+
     .sc-notes-section { padding: 0 24px; }
 
     .sc-notes-label {
@@ -1149,9 +1178,108 @@
       .form-card { padding: 20px 14px 24px; }
       .pill-btn { font-size: 11px; padding: 9px 6px; }
     }
+
+    /* ─── Recent Scenarios Panel ────────────────────────────────────────────── */
+    .recent-panel { overflow: hidden; }
+
+    .recent-header {
+      width: 100%; display: flex; align-items: center; justify-content: space-between;
+      padding: 15px 20px; background: none; border: none; cursor: pointer; color: inherit; gap: 10px;
+    }
+    .recent-header:hover .recent-title { color: var(--text-gold); }
+
+    .recent-title-row { display: flex; align-items: center; gap: 10px; }
+
+    .recent-title {
+      font-size: 10.5px; font-weight: 600; letter-spacing: 0.20em;
+      text-transform: uppercase; color: var(--text-muted); transition: color 0.2s;
+    }
+
+    .recent-badge {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
+      background: rgba(196,144,42,0.16); border: 1px solid rgba(196,144,42,0.28);
+      font-size: 9px; font-weight: 700; color: var(--text-gold);
+    }
+
+    .recent-chevron {
+      font-size: 9px; color: var(--text-muted);
+      transition: transform 0.3s cubic-bezier(0.22,1,0.36,1); margin-left: auto;
+    }
+    .recent-panel.open .recent-chevron { transform: rotate(180deg); }
+
+    .recent-body {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.38s cubic-bezier(0.22,1,0.36,1);
+    }
+    .recent-panel.open .recent-body { max-height: 700px; }
+
+    .recent-list { padding: 0 12px 6px; display: flex; flex-direction: column; gap: 6px; }
+
+    .recent-row {
+      display: flex; align-items: center; gap: 10px; padding: 10px 14px;
+      background: rgba(255,255,255,0.028); border: 1px solid rgba(196,144,42,0.13);
+      border-radius: var(--radius-sm); cursor: pointer;
+      transition: background 0.2s, border-color 0.2s, transform 0.15s;
+    }
+    .recent-row:hover {
+      background: rgba(196,144,42,0.075); border-color: rgba(196,144,42,0.30);
+      transform: translateX(3px);
+    }
+
+    .recent-row-info { flex: 1; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
+
+    .recent-row-top { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+
+    .recent-prog-tag {
+      font-size: 10px; font-weight: 600; letter-spacing: 0.06em;
+      color: var(--text-gold); background: rgba(196,144,42,0.14);
+      padding: 2px 7px; border-radius: 20px;
+    }
+    .recent-tx-tag { font-size: 10px; color: var(--text-muted); }
+
+    .recent-row-bottom { font-size: 10px; color: rgba(248,245,240,0.34); display: flex; gap: 10px; }
+
+    .recent-match-badge {
+      font-size: 10px; font-weight: 600; padding: 2px 7px; border-radius: 20px; white-space: nowrap;
+    }
+    .recent-match-badge.has-match { color: #4ADE80; background: rgba(74,222,128,0.10); }
+    .recent-match-badge.no-match  { color: rgba(248,245,240,0.32); background: rgba(255,255,255,0.04); }
+
+    .recent-ts { font-size: 9px; color: rgba(248,245,240,0.26); white-space: nowrap; align-self: center; }
+
+    .recent-replay-icon { color: rgba(196,144,42,0.45); flex-shrink: 0; transition: color 0.2s; }
+    .recent-row:hover .recent-replay-icon { color: var(--gold-light); }
+
+    .recent-footer { padding: 6px 20px 12px; display: flex; justify-content: flex-end; }
+
+    .recent-clear-btn {
+      font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase;
+      color: rgba(248,245,240,0.22); background: none; border: none;
+      cursor: pointer; padding: 4px 8px; transition: color 0.2s;
+    }
+    .recent-clear-btn:hover { color: #F87171; }
   </style>
+
+  <!-- ═══════════════════════════════════════════════════════════════════════
+       CELESTIAL LAYER — to disable: set display:none on #celestialCanvas
+       ═══════════════════════════════════════════════════════════════════════ -->
+  <style>
+    #celestialCanvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+  </style>
+  <!-- ═══════════════════════════════════════════════════════════════════════ -->
 </head>
 <body>
+
+<!-- CELESTIAL CANVAS — remove or hide to disable -->
+<canvas id="celestialCanvas" aria-hidden="true"></canvas>
 
 <div class="page">
 
@@ -1310,6 +1438,28 @@
 
     <button class="btn-find" onclick="findInvestors()">Find Eligible Investors</button>
   </div>
+
+  <!-- Recent Scenarios -->
+  <div class="glass-card recent-panel" id="recentPanel" style="display:none;">
+    <button class="recent-header" onclick="toggleRecentPanel()">
+      <span class="recent-title-row">
+        <svg class="recent-replay-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+        </svg>
+        <span class="recent-title">Recent Scenarios</span>
+        <span class="recent-badge" id="recentBadge"></span>
+      </span>
+      <span class="recent-chevron" id="recentChevron">▼</span>
+    </button>
+    <div class="recent-body" id="recentBody">
+      <div class="recent-list" id="recentList"></div>
+      <div class="recent-footer">
+        <button class="recent-clear-btn" onclick="clearHistory()">Clear History</button>
+      </div>
+    </div>
+  </div>
+
   </div><!-- /dashboard-left -->
 
   <!-- ── Right Column ── -->
@@ -1458,6 +1608,110 @@
   let selectedRefi      = '';   // 'Cash Out' | 'Rate & Term' | ''
   let selectedOccupancy = '';   // 'Primary' | 'Secondary' | 'Investment' | ''
   let selectedDSCR      = '';   // '>=1.00' | '<1.00' | ''
+  let resultsShown      = false; // true once a result batch is visible
+
+  // ── Scenario History ───────────────────────────────────────────────────────
+  const HISTORY_KEY = 'lhfs_scenario_history';
+  const HISTORY_MAX = 8;
+  let recentPanelOpen = true;
+
+  function _loadHistoryRaw() {
+    try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); } catch { return []; }
+  }
+
+  function saveToHistory(entry) {
+    let hist = _loadHistoryRaw();
+    // Dedupe: remove existing identical scenario
+    hist = hist.filter(h =>
+      !(h.program === entry.program && h.tx === entry.tx && h.ltv === entry.ltv &&
+        h.fico === entry.fico && h.occ === entry.occ &&
+        h.refiType === entry.refiType && h.dscrType === entry.dscrType)
+    );
+    hist.unshift({ ...entry, ts: Date.now() });
+    hist = hist.slice(0, HISTORY_MAX);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(hist));
+    renderRecentPanel();
+  }
+
+  function clearHistory() {
+    localStorage.removeItem(HISTORY_KEY);
+    renderRecentPanel();
+  }
+
+  function toggleRecentPanel() {
+    recentPanelOpen = !recentPanelOpen;
+    document.getElementById('recentPanel').classList.toggle('open', recentPanelOpen);
+  }
+
+  function timeAgo(ts) {
+    const s = Math.floor((Date.now() - ts) / 1000);
+    if (s < 60)  return 'just now';
+    const m = Math.floor(s / 60);
+    if (m < 60)  return `${m}m ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24)  return `${h}h ago`;
+    return `${Math.floor(h / 24)}d ago`;
+  }
+
+  function renderRecentPanel() {
+    const hist    = _loadHistoryRaw();
+    const panel   = document.getElementById('recentPanel');
+    const list    = document.getElementById('recentList');
+    const badge   = document.getElementById('recentBadge');
+
+    if (hist.length === 0) { panel.style.display = 'none'; return; }
+
+    panel.style.display = 'block';
+    panel.classList.toggle('open', recentPanelOpen);
+    badge.textContent = hist.length;
+
+    list.innerHTML = hist.map((h, i) => `
+      <div class="recent-row" onclick="recallScenario(${i})">
+        <div class="recent-row-info">
+          <div class="recent-row-top">
+            <span class="recent-prog-tag">${h.programLabel}</span>
+            <span class="recent-tx-tag">${h.txLabel}</span>
+          </div>
+          <div class="recent-row-bottom">
+            <span>${h.occ}</span>
+            <span>·</span>
+            <span>LTV ${LTV_LABELS[h.ltv] || h.ltv + '%'}</span>
+            <span>·</span>
+            <span>FICO ${FICO_LABELS[h.fico] || h.fico}</span>
+          </div>
+        </div>
+        <span class="recent-match-badge ${h.matchCount > 0 ? 'has-match' : 'no-match'}">
+          ${h.matchCount > 0 ? '✓ ' + h.matchCount : '✕ 0'}
+        </span>
+        <span class="recent-ts">${timeAgo(h.ts)}</span>
+        <svg class="recent-replay-icon" width="11" height="11" viewBox="0 0 16 16" fill="currentColor">
+          <path d="M8 3a5 5 0 1 0 4.546 2.914.5.5 0 0 1 .908-.417A6 6 0 1 1 8 2v1z"/>
+          <path d="M8 4.466V.534a.25.25 0 0 1 .41-.192l2.36 1.966c.12.1.12.284 0 .384L8.41 4.658A.25.25 0 0 1 8 4.466z"/>
+        </svg>
+      </div>`).join('');
+  }
+
+  function recallScenario(idx) {
+    const hist = _loadHistoryRaw();
+    const h = hist[idx];
+    if (!h) return;
+
+    document.getElementById('program').value = h.program;
+    onProgramChange();
+
+    document.getElementById('transaction').value = h.tx;
+    onTransactionChange();
+
+    if (h.tx === 'Refinance' && h.refiType) selectRefi(h.refiType);
+    if (h.program === 'DSCR'  && h.dscrType) selectDSCR(h.dscrType);
+    selectOccupancy(h.occ);
+
+    document.getElementById('ltv').value  = h.ltv;
+    document.getElementById('fico').value = h.fico;
+
+    findInvestors();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
 
   // ── Program Handler (DSCR sub-panel) ──────────────────────────────────────
   function onProgramChange() {
@@ -1522,6 +1776,7 @@
 
   // ── Auto Match ─────────────────────────────────────────────────────────────
   function autoMatch() {
+    if (resultsShown) return;
     const program  = document.getElementById('program').value;
     const tx       = document.getElementById('transaction').value;
     const ltv      = document.getElementById('ltv').value;
@@ -1960,6 +2215,8 @@
       return;
     }
 
+    resultsShown = true;
+
     const effectiveTx  = tx === 'Refinance' ? selectedRefi : tx;
     const txLabel      = tx === 'Refinance' ? `Refi – ${selectedRefi}` : tx;
     const programLabel = program === 'DSCR' ? `DSCR ${selectedDSCR}` : program;
@@ -1972,6 +2229,8 @@
     }));
     const matches    = evaluated.filter(({ result }) => result !== null);
     const ineligible = evaluated.filter(({ result }) => result === null);
+
+    saveToHistory({ program, tx, ltv, fico, occ, refiType: selectedRefi, dscrType: selectedDSCR, programLabel, txLabel, matchCount: matches.length });
 
     dividerEl.style.display = 'flex';
     resultsEl.innerHTML = '';
@@ -2167,7 +2426,8 @@
   }
 
   // ── Summary Card / Modal ────────────────────────────────────────────────────
-  let _activeSummaryData = null;
+  let _activeSummaryData  = null;
+  let _excludedInvestorIds = new Set();
 
   function openSummaryModal(scenario, matches, programLabel, txLabel) {
     _activeSummaryData = { scenario, matches, programLabel, txLabel };
@@ -2185,13 +2445,8 @@
       `<span class="sc-chip">FICO <strong>${FICO_LABELS[fico]}</strong></span>`,
     ].join('');
 
-    document.getElementById('scInvestors').innerHTML = matches.map(({ inv, result }) => `
-      <div class="sc-inv-row">
-        <span class="sc-inv-dot"></span>
-        <span class="sc-inv-name">${inv.name}</span>
-        <span class="sc-inv-stat">Max LTV <strong>${result.maxLTV}%</strong></span>
-        <span class="sc-inv-stat" style="margin-left:12px;">Min FICO <strong>${result.minFICO}</strong></span>
-      </div>`).join('');
+    _excludedInvestorIds = new Set();
+    refreshSummaryInvestors();
 
     document.getElementById('processorNotes').value = '';
     document.getElementById('scNotesSection').style.display = 'none';
@@ -2203,6 +2458,28 @@
   function closeSummaryModal(e) {
     if (e.target === document.getElementById('summaryModal'))
       document.getElementById('summaryModal').style.display = 'none';
+  }
+
+  function toggleSummaryInvestor(id) {
+    if (_excludedInvestorIds.has(id)) _excludedInvestorIds.delete(id);
+    else _excludedInvestorIds.add(id);
+    refreshSummaryInvestors();
+  }
+
+  function refreshSummaryInvestors() {
+    const { matches } = _activeSummaryData;
+    document.getElementById('scInvestors').innerHTML = matches.map(({ inv, result }) => {
+      const excluded = _excludedInvestorIds.has(inv.id);
+      return `
+        <div class="sc-inv-row${excluded ? ' excluded' : ''}">
+          <span class="sc-inv-dot"></span>
+          <span class="sc-inv-name">${inv.name}</span>
+          <span class="sc-inv-stat">Max LTV <strong>${result.maxLTV}%</strong></span>
+          <span class="sc-inv-stat" style="margin-left:12px;">Min FICO <strong>${result.minFICO}</strong></span>
+          <button class="sc-inv-toggle" onclick="toggleSummaryInvestor('${inv.id}')"
+            title="${excluded ? 'Include investor' : 'Exclude from summary'}">${excluded ? '+' : '✕'}</button>
+        </div>`;
+    }).join('');
   }
 
   function updateNotesPreview() {
@@ -2219,6 +2496,8 @@
 
   function printSummaryCard() {
     const clone = document.getElementById('summaryCard').cloneNode(true);
+    clone.querySelectorAll('.sc-inv-row.excluded').forEach(el => el.remove());
+    clone.querySelectorAll('.sc-inv-toggle').forEach(el => el.remove());
     document.getElementById('printCardClone').innerHTML = '';
     document.getElementById('printCardClone').appendChild(clone);
     window.print();
@@ -2230,8 +2509,10 @@
     const { occupancy, ltv, fico } = scenario;
     const notes = document.getElementById('processorNotes').value.trim();
 
+    const filteredMatches = matches.filter(({ inv }) => !_excludedInvestorIds.has(inv.id));
+
     const W = 800, PX = 2;
-    const rows = matches.length;
+    const rows = filteredMatches.length;
     const notesLines = notes ? notes.split('\n') : [];
     const H = 300 + rows * 38 + (notes ? 60 + notesLines.length * 18 : 0);
 
@@ -2323,7 +2604,7 @@
     c.fillText('ELIGIBLE INVESTORS', 30, 140);
 
     // Investor rows
-    matches.forEach(({ inv, result }, i) => {
+    filteredMatches.forEach(({ inv, result }, i) => {
       const y = 160 + i * 38;
       // Subtle row bg
       c.fillStyle = 'rgba(255,255,255,0.025)';
@@ -2651,6 +2932,234 @@
       btn.querySelector('.signals-more-label').textContent = expanded ? 'Show more' : 'Show less';
     });
   })();
+
+  // Render any persisted history on load
+  renderRecentPanel();
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // CELESTIAL LAYER — stars, constellations, shooting stars, mouse parallax
+  // To disable everything: set #celestialCanvas { display:none } in CSS above
+  // ═══════════════════════════════════════════════════════════════════════════
+  (function initCelestial() {
+    const canvas = document.getElementById('celestialCanvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+
+    let W = 0, H = 0;
+    let mouseX = 0.5, mouseY = 0.5;
+    let smoothX = 0.5, smoothY = 0.5;
+
+    document.addEventListener('mousemove', e => {
+      mouseX = e.clientX / window.innerWidth;
+      mouseY = e.clientY / window.innerHeight;
+    });
+    document.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      mouseX = t.clientX / window.innerWidth;
+      mouseY = t.clientY / window.innerHeight;
+    }, { passive: true });
+
+    // ── Scene objects ─────────────────────────────────────────────────────────
+    let stars        = [];
+    let constellations = [];
+    let shootingStars  = [];
+    let nextShootTime  = 0;
+
+    function rand(min, max) { return min + Math.random() * (max - min); }
+
+    function buildScene() {
+      // Background stars (180 scattered, ~20% warm-gold-tinted)
+      stars = Array.from({ length: 180 }, () => ({
+        x:  rand(0, W),
+        y:  rand(0, H),
+        r:  rand(0.3, 1.5),
+        phase: rand(0, Math.PI * 2),
+        speed: rand(0.25, 0.9),
+        gold:  Math.random() < 0.2,
+        px:   rand(0.2, 1.0), // parallax factor
+      }));
+
+      // Constellation clusters — normalized x/y so they scale with viewport
+      const defs = [
+        { nodes:[[.06,.09],[.10,.05],[.14,.11],[.09,.14]], edges:[[0,1],[1,2],[2,3],[3,0]] },
+        { nodes:[[.81,.06],[.86,.06],[.91,.06],[.91,.13],[.91,.20]], edges:[[0,1],[1,2],[2,3],[3,4]] },
+        { nodes:[[.11,.41],[.16,.35],[.22,.41],[.16,.47]], edges:[[0,1],[1,2],[2,3],[3,0],[0,2]] },
+        { nodes:[[.88,.46],[.88,.38],[.88,.54],[.82,.46],[.94,.46]], edges:[[1,0],[0,2],[3,0],[0,4]] },
+        { nodes:[[.06,.73],[.11,.68],[.17,.65],[.22,.68],[.27,.73]], edges:[[0,1],[1,2],[2,3],[3,4]] },
+        { nodes:[[.80,.79],[.85,.74],[.91,.79],[.88,.85],[.83,.82]], edges:[[0,1],[1,2],[2,3],[3,4],[4,0]] },
+        { nodes:[[.36,.05],[.43,.08],[.51,.06],[.58,.11]], edges:[[0,1],[1,2],[2,3]] },
+        { nodes:[[.55,.55],[.60,.50],[.65,.55],[.63,.62],[.57,.61]], edges:[[0,1],[1,2],[2,3],[3,4],[4,0],[1,3]] },
+      ];
+
+      constellations = defs.map(d => ({
+        px: rand(0.3, 1.0),
+        nodes: d.nodes.map(([nx, ny]) => ({
+          x: nx * W, y: ny * H,
+          r: rand(0.9, 1.8),
+          phase: rand(0, Math.PI * 2),
+          speed: rand(0.15, 0.45),
+          gold: Math.random() < 0.45,
+        })),
+        edges: d.edges,
+      }));
+    }
+
+    function spawnShootingStar(t) {
+      const fromSide = Math.random() < 0.45;
+      const sx = fromSide ? -60 : rand(W * 0.05, W * 0.75);
+      const sy = fromSide ? rand(H * 0.02, H * 0.45) : -20;
+      const angle = fromSide ? rand(.14, .55) : rand(.42, .70); // radians
+      const spd   = rand(480, 780);
+      const len   = rand(90, 160);
+      shootingStars.push({
+        x: sx, y: sy,
+        vx: Math.cos(angle) * spd,
+        vy: Math.sin(angle) * spd,
+        len,
+        maxA: rand(0.28, 0.52),
+        dur:  (len + rand(300, 500)) / spd * 1000,
+        born: t,
+      });
+    }
+
+    // ── Draw loop ─────────────────────────────────────────────────────────────
+    let lastT = 0;
+
+    function draw(t) {
+      const dt = Math.min((t - lastT) / 1000, 0.05);
+      lastT = t;
+
+      // Smooth parallax (lerp toward mouse position)
+      smoothX += (mouseX - smoothX) * 0.035;
+      smoothY += (mouseY - smoothY) * 0.035;
+      const ox = (smoothX - 0.5) * 20; // max ±10px
+      const oy = (smoothY - 0.5) * 20;
+
+      ctx.clearRect(0, 0, W, H);
+
+      // ── Background stars ───────────────────────────────────────────────────
+      stars.forEach(s => {
+        const twinkle = 0.25 + 0.75 * (0.5 + 0.5 * Math.sin(t * 0.001 * s.speed + s.phase));
+        const sx = s.x + ox * s.px;
+        const sy = s.y + oy * s.px;
+        ctx.beginPath();
+        ctx.arc(sx, sy, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = s.gold
+          ? `rgba(232,184,75,${twinkle * 0.20})`
+          : `rgba(248,245,240,${twinkle * 0.24})`;
+        ctx.fill();
+      });
+
+      // ── Constellations ─────────────────────────────────────────────────────
+      constellations.forEach(con => {
+        const cpx = ox * con.px;
+        const cpy = oy * con.px;
+
+        // Connection lines — very faint gold gradient
+        ctx.lineWidth = 0.5;
+        con.edges.forEach(([a, b]) => {
+          const na = con.nodes[a], nb = con.nodes[b];
+          const ax = na.x + cpx, ay = na.y + cpy;
+          const bx = nb.x + cpx, by = nb.y + cpy;
+          const g = ctx.createLinearGradient(ax, ay, bx, by);
+          g.addColorStop(0,   'rgba(196,144,42,0.05)');
+          g.addColorStop(0.5, 'rgba(196,144,42,0.11)');
+          g.addColorStop(1,   'rgba(196,144,42,0.05)');
+          ctx.strokeStyle = g;
+          ctx.beginPath();
+          ctx.moveTo(ax, ay);
+          ctx.lineTo(bx, by);
+          ctx.stroke();
+        });
+
+        // Node stars — slightly brighter than bg stars, with soft glow
+        con.nodes.forEach(n => {
+          const tw  = 0.4 + 0.6 * (0.5 + 0.5 * Math.sin(t * 0.001 * n.speed + n.phase));
+          const nx  = n.x + cpx;
+          const ny  = n.y + cpy;
+          const rgb = n.gold ? '232,184,75' : '248,245,240';
+          const alpha = n.gold ? 0.30 : 0.22;
+
+          // Soft glow halo
+          const glow = ctx.createRadialGradient(nx, ny, 0, nx, ny, n.r * 5);
+          glow.addColorStop(0, `rgba(${rgb},${tw * alpha})`);
+          glow.addColorStop(1, 'rgba(0,0,0,0)');
+          ctx.beginPath();
+          ctx.arc(nx, ny, n.r * 5, 0, Math.PI * 2);
+          ctx.fillStyle = glow;
+          ctx.fill();
+
+          // Core dot
+          ctx.beginPath();
+          ctx.arc(nx, ny, n.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(${rgb},${tw * (n.gold ? 0.75 : 0.65)})`;
+          ctx.fill();
+        });
+      });
+
+      // ── Shooting stars ─────────────────────────────────────────────────────
+      if (t > nextShootTime) {
+        spawnShootingStar(t);
+        nextShootTime = t + rand(5000, 13000);
+      }
+
+      shootingStars = shootingStars.filter(s => (t - s.born) < s.dur);
+      shootingStars.forEach(s => {
+        const progress = (t - s.born) / s.dur;
+        const fade = progress < 0.12
+          ? (progress / 0.12)
+          : 1 - (progress - 0.12) / 0.88;
+        const alpha = fade * s.maxA;
+
+        const elapsed = (t - s.born) / 1000;
+        const hx = s.x + s.vx * elapsed;
+        const hy = s.y + s.vy * elapsed;
+        const angle = Math.atan2(s.vy, s.vx);
+        const tx = hx - Math.cos(angle) * s.len;
+        const ty = hy - Math.sin(angle) * s.len;
+
+        const grad = ctx.createLinearGradient(tx, ty, hx, hy);
+        grad.addColorStop(0,   'rgba(255,255,255,0)');
+        grad.addColorStop(0.55,`rgba(232,184,75,${alpha * 0.45})`);
+        grad.addColorStop(1,   `rgba(255,255,255,${alpha})`);
+
+        ctx.beginPath();
+        ctx.moveTo(tx, ty);
+        ctx.lineTo(hx, hy);
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.4;
+        ctx.stroke();
+
+        // Bright head
+        const headGlow = ctx.createRadialGradient(hx, hy, 0, hx, hy, 4);
+        headGlow.addColorStop(0, `rgba(255,255,255,${alpha * 0.9})`);
+        headGlow.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.beginPath();
+        ctx.arc(hx, hy, 4, 0, Math.PI * 2);
+        ctx.fillStyle = headGlow;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(draw);
+    }
+
+    function resize() {
+      const dpr = window.devicePixelRatio || 1;
+      W = window.innerWidth;
+      H = window.innerHeight;
+      canvas.width  = W * dpr;
+      canvas.height = H * dpr;
+      canvas.style.width  = W + 'px';
+      canvas.style.height = H + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buildScene();
+    }
+
+    window.addEventListener('resize', resize);
+    resize();
+    requestAnimationFrame(draw);
+  })();
+  // ═══════════════════════════════════════════════════════════════════════════
 
 </script>
 
