@@ -1,0 +1,15 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+*.swp
+
+# Logs
+*.log
+
+# Keep generate-og-png.html out of production if desired
+# (comment this line to keep it in the repo)
+# generate-og-png.html

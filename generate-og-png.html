@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Generate OG Image PNG</title>
+<style>
+  body { margin: 0; background: #111; display: flex; flex-direction: column;
+         align-items: center; justify-content: center; min-height: 100vh;
+         font-family: system-ui, sans-serif; color: #eee; gap: 20px; }
+  canvas { border: 1px solid rgba(196,144,42,0.4); border-radius: 8px;
+           max-width: 90vw; }
+  button { background: linear-gradient(135deg,#B8821E,#E8B84B);
+           border: none; color: #07112B; padding: 12px 32px;
+           border-radius: 100px; font-size: 15px; font-weight: 700;
+           cursor: pointer; letter-spacing: 0.08em; }
+  p { font-size: 13px; color: rgba(255,255,255,0.4); }
+</style>
+</head>
+<body>
+<p>Rendering OG image… download will start automatically.</p>
+<canvas id="c" width="1200" height="630"></canvas>
+<button onclick="download()">Download og-image.png</button>
+<script>
+const c = document.getElementById('c');
+const ctx = c.getContext('2d');
+const W = 1200, H = 630;
+
+function draw() {
+  // Background
+  const bg = ctx.createLinearGradient(0,0,W,H);
+  bg.addColorStop(0,   '#06102A');
+  bg.addColorStop(0.5, '#0B1610');
+  bg.addColorStop(1,   '#1A1410');
+  ctx.fillStyle = bg; ctx.fillRect(0,0,W,H);
+
+  // Ambient glow left
+  const gl = ctx.createRadialGradient(220,280,0,220,280,340);
+  gl.addColorStop(0, 'rgba(196,144,42,0.18)'); gl.addColorStop(1,'rgba(196,144,42,0)');
+  ctx.fillStyle = gl; ctx.fillRect(0,0,W,H);
+
+  // Ambient glow right
+  const gr = ctx.createRadialGradient(980,400,0,980,400,300);
+  gr.addColorStop(0,'rgba(27,58,107,0.35)'); gr.addColorStop(1,'rgba(27,58,107,0)');
+  ctx.fillStyle = gr; ctx.fillRect(0,0,W,H);
+
+  // Gold top bar
+  const bar = ctx.createLinearGradient(0,0,W,0);
+  bar.addColorStop(0,'#9A6B18'); bar.addColorStop(0.4,'#E8B84B'); bar.addColorStop(1,'#9A6B18');
+  ctx.fillStyle = bar; ctx.fillRect(0,0,W,5);
+
+  // House icon
+  ctx.save(); ctx.translate(72, 88); ctx.scale(1.9, 1.9);
+  const hg = ctx.createLinearGradient(0,0,72,72);
+  hg.addColorStop(0,'#E8B84B'); hg.addColorStop(1,'#9A6B18');
+  ctx.fillStyle = 'rgba(196,144,42,0.10)';
+  ctx.beginPath(); ctx.arc(36,36,34,0,Math.PI*2); ctx.fill();
+  ctx.fillStyle = hg; ctx.globalAlpha = 0.93;
+  ctx.beginPath();
+  ctx.moveTo(36,8); ctx.lineTo(8,28); ctx.lineTo(15,28);
+  ctx.lineTo(15,50); ctx.lineTo(27,50); ctx.lineTo(27,38);
+  ctx.lineTo(45,38); ctx.lineTo(45,50); ctx.lineTo(57,50);
+  ctx.lineTo(57,28); ctx.lineTo(64,28); ctx.closePath(); ctx.fill();
+  ctx.globalAlpha = 1;
+  ctx.fillStyle = 'rgba(6,16,42,0.75)';
+  rr(ctx, 30, 38, 12, 12, 1.5); ctx.fill();
+  ctx.restore();
+
+  // Eyebrow
+  ctx.fillStyle = '#E8B84B';
+  ctx.font = '700 18px "Segoe UI", Arial, sans-serif';
+  ctx.letterSpacing = '5px';
+  ctx.fillText('LAND HOME FINANCIAL SERVICES', 72, 232);
+
+  // Divider
+  ctx.strokeStyle = 'rgba(196,144,42,0.35)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(72,252); ctx.lineTo(580,252); ctx.stroke();
+
+  // Headline
+  const hl = ctx.createLinearGradient(72,0,580,0);
+  hl.addColorStop(0,'#F8F5F0'); hl.addColorStop(1,'#E8B84B');
+  ctx.fillStyle = hl;
+  ctx.font = '800 58px "Segoe UI", Arial, sans-serif';
+  ctx.letterSpacing = '-1px';
+  ctx.fillText('Investor Match', 72, 320);
+  ctx.fillText('Engine', 72, 388);
+
+  // Sub
+  ctx.fillStyle = 'rgba(248,245,240,0.55)';
+  ctx.font = '400 22px "Segoe UI", Arial, sans-serif';
+  ctx.letterSpacing = '0.5px';
+  ctx.fillText('Real-time non-QM eligibility matching for loan officers', 72, 436);
+
+  // Cards
+  const cardData = [
+    { x:680,  y:100, name:'Luxury',    ltv:'<85%', fico:'620–639' },
+    { x:920,  y:100, name:'Acra',      ltv:'<80%', fico:'620–639' },
+    { x:680,  y:252, name:'Deephaven', ltv:'<90%', fico:'660–679' },
+    { x:920,  y:252, name:'NewRez',    ltv:'<85%', fico:'640–659' },
+  ];
+  cardData.forEach(d => drawCard(d.x, d.y, d.name, d.ltv, d.fico));
+
+  // Treasury mini card
+  drawTreasuryBar();
+
+  // Footer
+  ctx.fillStyle = 'rgba(0,0,0,0.25)'; ctx.fillRect(0,590,W,40);
+  ctx.fillStyle = 'rgba(248,245,240,0.35)';
+  ctx.font = '400 14px "Segoe UI", Arial, sans-serif';
+  ctx.letterSpacing = '1px';
+  ctx.textAlign = 'left';
+  ctx.fillText('gfreesie.github.io/lhfs-investor-match', 72, 615);
+  ctx.textAlign = 'right';
+  ctx.fillText('Internal Tool · NMLS #1796', W - 72, 615);
+  ctx.textAlign = 'left';
+}
+
+function drawCard(x, y, name, ltv, fico) {
+  // Card bg
+  ctx.fillStyle = 'rgba(255,255,255,0.055)';
+  rr(ctx, x, y, 220, 130, 14); ctx.fill();
+  ctx.strokeStyle = 'rgba(196,144,42,0.35)'; ctx.lineWidth = 1;
+  rr(ctx, x, y, 220, 130, 14); ctx.stroke();
+  // Green dot
+  ctx.fillStyle = '#4ADE80';
+  ctx.shadowColor = 'rgba(74,222,128,0.8)'; ctx.shadowBlur = 8;
+  ctx.beginPath(); ctx.arc(x+22, y+27, 5, 0, Math.PI*2); ctx.fill();
+  ctx.shadowBlur = 0;
+  // Eligible label
+  ctx.fillStyle = 'rgba(232,184,75,0.85)';
+  ctx.font = '600 11px "Segoe UI", Arial, sans-serif';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('ELIGIBLE', x+36, y+31);
+  // Name
+  ctx.fillStyle = '#F8F5F0'; ctx.font = '700 22px "Segoe UI", Arial, sans-serif';
+  ctx.letterSpacing = '-0.5px';
+  ctx.fillText(name, x+20, y+62);
+  // Divider
+  ctx.strokeStyle = 'rgba(196,144,42,0.30)'; ctx.lineWidth = 0.8;
+  ctx.beginPath(); ctx.moveTo(x+20,y+78); ctx.lineTo(x+200,y+78); ctx.stroke();
+  // Stats
+  ctx.fillStyle = 'rgba(248,245,240,0.50)'; ctx.font = '400 12px "Segoe UI", Arial, sans-serif';
+  ctx.letterSpacing = '0px';
+  ctx.fillText('Max LTV', x+20, y+98);
+  ctx.fillStyle = '#F8F5F0'; ctx.font = '600 12px "Segoe UI", Arial, sans-serif';
+  ctx.textAlign = 'right'; ctx.fillText(ltv, x+200, y+98); ctx.textAlign = 'left';
+  ctx.fillStyle = 'rgba(248,245,240,0.50)'; ctx.font = '400 12px "Segoe UI", Arial, sans-serif';
+  ctx.fillText('Min FICO', x+20, y+118);
+  ctx.fillStyle = '#F8F5F0'; ctx.font = '600 12px "Segoe UI", Arial, sans-serif';
+  ctx.textAlign = 'right'; ctx.fillText(fico, x+200, y+118); ctx.textAlign = 'left';
+}
+
+function drawTreasuryBar() {
+  ctx.fillStyle = 'rgba(255,255,255,0.035)';
+  rr(ctx, 680, 404, 460, 72, 14); ctx.fill();
+  ctx.strokeStyle = 'rgba(196,144,42,0.20)'; ctx.lineWidth = 1;
+  rr(ctx, 680, 404, 460, 72, 14); ctx.stroke();
+  ctx.fillStyle = '#4ADE80';
+  ctx.shadowColor = 'rgba(74,222,128,0.9)'; ctx.shadowBlur = 6;
+  ctx.beginPath(); ctx.arc(702,428,4,0,Math.PI*2); ctx.fill();
+  ctx.shadowBlur = 0;
+  ctx.fillStyle = 'rgba(232,184,75,0.70)';
+  ctx.font = '600 10px "Segoe UI", Arial, sans-serif';
+  ctx.letterSpacing = '2px';
+  ctx.fillText('10-YEAR TREASURY', 716, 432);
+  ctx.fillStyle = '#F8F5F0'; ctx.font = '700 26px "Segoe UI", Arial, sans-serif';
+  ctx.letterSpacing = '-0.5px';
+  ctx.fillText('4.31%', 700, 458);
+  ctx.fillStyle = 'rgba(239,102,102,0.90)';
+  ctx.font = '600 13px "Segoe UI", Arial, sans-serif';
+  ctx.fillText('+0.02', 780, 458);
+}
+
+function rr(ctx, x, y, w, h, r) {
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y); ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+  ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+  ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+  ctx.closePath();
+}
+
+function download() {
+  const a = document.createElement('a');
+  a.download = 'og-image.png';
+  a.href = c.toDataURL('image/png');
+  a.click();
+}
+
+draw();
+// Auto-download after 500ms to ensure render is complete
+setTimeout(download, 500);
+</script>
+</body>
+</html>

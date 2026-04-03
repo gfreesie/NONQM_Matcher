@@ -1,0 +1,208 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <!-- Background gradient -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#06102A"/>
+      <stop offset="50%"  stop-color="#0B1610"/>
+      <stop offset="100%" stop-color="#1A1410"/>
+    </linearGradient>
+    <!-- Gold bar gradient -->
+    <linearGradient id="goldBar" x1="0" y1="0" x2="1200" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#9A6B18"/>
+      <stop offset="40%"  stop-color="#E8B84B"/>
+      <stop offset="100%" stop-color="#9A6B18"/>
+    </linearGradient>
+    <!-- House icon gradient -->
+    <linearGradient id="houseGrad" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#E8B84B"/>
+      <stop offset="100%" stop-color="#9A6B18"/>
+    </linearGradient>
+    <!-- Headline gradient -->
+    <linearGradient id="headlineGrad" x1="0" y1="0" x2="600" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%"   stop-color="#F8F5F0"/>
+      <stop offset="100%" stop-color="#E8B84B"/>
+    </linearGradient>
+    <!-- Ambient gold glow -->
+    <radialGradient id="glowLeft" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(220 280) scale(340 260)">
+      <stop offset="0%"   stop-color="#C4902A" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#C4902A" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowRight" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse"
+      gradientTransform="translate(980 400) scale(300 220)">
+      <stop offset="0%"   stop-color="#1B3A6B" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#1B3A6B" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Card glass surface -->
+    <linearGradient id="cardBg" x1="0" y1="0" x2="0" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0%"   stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#ffffff" stop-opacity="0.03"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <!-- Ambient glows -->
+  <rect width="1200" height="630" fill="url(#glowLeft)"/>
+  <rect width="1200" height="630" fill="url(#glowRight)"/>
+
+  <!-- Top gold bar -->
+  <rect x="0" y="0" width="1200" height="5" fill="url(#goldBar)"/>
+
+  <!-- ── LEFT COLUMN: Branding ── -->
+
+  <!-- House icon (scaled path, origin ~64,90) -->
+  <g transform="translate(72, 88) scale(1.9)">
+    <circle cx="36" cy="36" r="34" fill="rgba(196,144,42,0.10)"/>
+    <path d="M36 8L8 28h7v22h12V38h10v12h12V28h7L36 8z"
+          fill="url(#houseGrad)" opacity="0.93"/>
+    <rect x="30" y="38" width="12" height="12" rx="1.5"
+          fill="rgba(6,16,42,0.75)"/>
+    <path d="M36 8L8 28h7v3L36 12l21 19h7v-3L36 8z"
+          fill="rgba(255,255,255,0.14)"/>
+  </g>
+
+  <!-- LHFS eyebrow -->
+  <text x="72" y="232"
+        font-family="'Segoe UI', Arial, sans-serif"
+        font-size="18" font-weight="700"
+        fill="#E8B84B" letter-spacing="5"
+        text-anchor="start">LAND HOME FINANCIAL SERVICES</text>
+
+  <!-- Divider line -->
+  <line x1="72" y1="252" x2="580" y2="252"
+        stroke="rgba(196,144,42,0.35)" stroke-width="1"/>
+
+  <!-- Main headline -->
+  <text x="72" y="320"
+        font-family="'Segoe UI', Arial, sans-serif"
+        font-size="58" font-weight="800"
+        fill="url(#headlineGrad)" letter-spacing="-1">Investor Match</text>
+  <text x="72" y="388"
+        font-family="'Segoe UI', Arial, sans-serif"
+        font-size="58" font-weight="800"
+        fill="url(#headlineGrad)" letter-spacing="-1">Engine</text>
+
+  <!-- Sub line -->
+  <text x="72" y="436"
+        font-family="'Segoe UI', Arial, sans-serif"
+        font-size="22" fill="rgba(248,245,240,0.55)" letter-spacing="0.5">
+    Real-time non-QM eligibility matching for loan officers
+  </text>
+
+  <!-- ── RIGHT COLUMN: Dashboard preview cards ── -->
+
+  <!-- Card 1 -->
+  <rect x="680" y="100" width="220" height="130" rx="14"
+        fill="rgba(255,255,255,0.055)"
+        stroke="rgba(196,144,42,0.35)" stroke-width="1"/>
+  <circle cx="702" cy="127" r="5" fill="#4ADE80"
+          filter="drop-shadow(0 0 4px rgba(74,222,128,0.8))"/>
+  <text x="716" y="131" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="11" fill="rgba(232,184,75,0.85)" letter-spacing="2"
+        font-weight="600">ELIGIBLE</text>
+  <text x="700" y="162" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="22" font-weight="700" fill="#F8F5F0">Luxury</text>
+  <line x1="700" y1="178" x2="880" y2="178"
+        stroke="rgba(196,144,42,0.30)" stroke-width="0.8"/>
+  <text x="700" y="198" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" fill="rgba(248,245,240,0.50)">Max LTV</text>
+  <text x="870" y="198" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" font-weight="600" fill="#F8F5F0" text-anchor="end">&lt;85%</text>
+  <text x="700" y="218" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" fill="rgba(248,245,240,0.50)">Min FICO</text>
+  <text x="870" y="218" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" font-weight="600" fill="#F8F5F0" text-anchor="end">620–639</text>
+
+  <!-- Card 2 -->
+  <rect x="920" y="100" width="220" height="130" rx="14"
+        fill="rgba(255,255,255,0.055)"
+        stroke="rgba(196,144,42,0.35)" stroke-width="1"/>
+  <circle cx="942" cy="127" r="5" fill="#4ADE80"
+          filter="drop-shadow(0 0 4px rgba(74,222,128,0.8))"/>
+  <text x="956" y="131" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="11" fill="rgba(232,184,75,0.85)" letter-spacing="2"
+        font-weight="600">ELIGIBLE</text>
+  <text x="940" y="162" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="22" font-weight="700" fill="#F8F5F0">Acra</text>
+  <line x1="940" y1="178" x2="1120" y2="178"
+        stroke="rgba(196,144,42,0.30)" stroke-width="0.8"/>
+  <text x="940" y="198" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" fill="rgba(248,245,240,0.50)">Max LTV</text>
+  <text x="1110" y="198" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" font-weight="600" fill="#F8F5F0" text-anchor="end">&lt;80%</text>
+  <text x="940" y="218" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" fill="rgba(248,245,240,0.50)">Min FICO</text>
+  <text x="1110" y="218" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" font-weight="600" fill="#F8F5F0" text-anchor="end">620–639</text>
+
+  <!-- Card 3 — Deephaven -->
+  <rect x="680" y="252" width="220" height="130" rx="14"
+        fill="rgba(255,255,255,0.055)"
+        stroke="rgba(196,144,42,0.35)" stroke-width="1"/>
+  <circle cx="702" cy="279" r="5" fill="#4ADE80"
+          filter="drop-shadow(0 0 4px rgba(74,222,128,0.8))"/>
+  <text x="716" y="283" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="11" fill="rgba(232,184,75,0.85)" letter-spacing="2"
+        font-weight="600">ELIGIBLE</text>
+  <text x="700" y="314" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="22" font-weight="700" fill="#F8F5F0">Deephaven</text>
+  <line x1="700" y1="330" x2="880" y2="330"
+        stroke="rgba(196,144,42,0.30)" stroke-width="0.8"/>
+  <text x="700" y="350" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" fill="rgba(248,245,240,0.50)">Max LTV</text>
+  <text x="870" y="350" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" font-weight="600" fill="#F8F5F0" text-anchor="end">&lt;90%</text>
+  <text x="700" y="370" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" fill="rgba(248,245,240,0.50)">Min FICO</text>
+  <text x="870" y="370" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" font-weight="600" fill="#F8F5F0" text-anchor="end">660–679</text>
+
+  <!-- Card 4 — NewRez -->
+  <rect x="920" y="252" width="220" height="130" rx="14"
+        fill="rgba(255,255,255,0.055)"
+        stroke="rgba(196,144,42,0.35)" stroke-width="1"/>
+  <circle cx="942" cy="279" r="5" fill="#4ADE80"
+          filter="drop-shadow(0 0 4px rgba(74,222,128,0.8))"/>
+  <text x="956" y="283" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="11" fill="rgba(232,184,75,0.85)" letter-spacing="2"
+        font-weight="600">ELIGIBLE</text>
+  <text x="940" y="314" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="22" font-weight="700" fill="#F8F5F0">NewRez</text>
+  <line x1="940" y1="330" x2="1120" y2="330"
+        stroke="rgba(196,144,42,0.30)" stroke-width="0.8"/>
+  <text x="940" y="350" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" fill="rgba(248,245,240,0.50)">Max LTV</text>
+  <text x="1110" y="350" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" font-weight="600" fill="#F8F5F0" text-anchor="end">&lt;85%</text>
+  <text x="940" y="370" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" fill="rgba(248,245,240,0.50)">Min FICO</text>
+  <text x="1110" y="370" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="12" font-weight="600" fill="#F8F5F0" text-anchor="end">640–659</text>
+
+  <!-- Signal/treasury mini hint -->
+  <rect x="680" y="404" width="460" height="72" rx="14"
+        fill="rgba(255,255,255,0.035)"
+        stroke="rgba(196,144,42,0.20)" stroke-width="1"/>
+  <circle cx="702" cy="428" r="4" fill="#4ADE80"
+          filter="drop-shadow(0 0 3px rgba(74,222,128,0.9))"/>
+  <text x="716" y="432" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="10" fill="rgba(232,184,75,0.70)" letter-spacing="2"
+        font-weight="600">10-YEAR TREASURY</text>
+  <text x="1125" y="432" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="10" fill="rgba(248,245,240,0.30)" text-anchor="end">LIVE</text>
+  <text x="700" y="458" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="26" font-weight="700" fill="#F8F5F0">4.31%</text>
+  <text x="780" y="458" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="13" font-weight="600" fill="rgba(239,102,102,0.90)">+0.02</text>
+
+  <!-- Bottom footer bar -->
+  <rect x="0" y="590" width="1200" height="40" fill="rgba(0,0,0,0.25)"/>
+  <text x="72" y="615" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="14" fill="rgba(248,245,240,0.35)" letter-spacing="1">
+    gfreesie.github.io/lhfs-investor-match
+  </text>
+  <text x="1128" y="615" font-family="'Segoe UI', Arial, sans-serif"
+        font-size="14" fill="rgba(248,245,240,0.35)" text-anchor="end"
+        letter-spacing="1">Internal Tool · NMLS #1796</text>
+</svg>

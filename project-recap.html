@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Project Recap — LHFS Investor Match Engine</title>
+  <meta property="og:type"        content="website"/>
+  <meta property="og:site_name"   content="Land Home Financial Services"/>
+  <meta property="og:title"       content="Project Recap — LHFS Investor Match Engine"/>
+  <meta property="og:description" content="Session-by-session development recap for the LHFS Investor Match Engine — advancements, architecture decisions, and roadmap."/>
+  <meta property="og:url"         content="https://gfreesie.github.io/lhfs-investor-match/project-recap.html"/>
+  <meta property="og:image"       content="https://gfreesie.github.io/lhfs-investor-match/og-image.png"/>
+  <meta property="og:image:width"  content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card"        content="summary_large_image"/>
+  <meta name="twitter:title"       content="Project Recap — LHFS"/>
+  <meta name="twitter:image"       content="https://gfreesie.github.io/lhfs-investor-match/og-image.png"/>
+  <meta name="theme-color" content="#07112B"/>
+  <style>
+    /* ─── PRINT CONFIG ─────────────────────────────────────────────────────── */
+    @page {
+      size: letter portrait;
+      margin: 0.7in 0.75in 0.7in 0.75in;
+    }
+    @media print {
+      body { background: #fff !important; }
+      .no-print { display: none !important; }
+      .page-break { page-break-before: always; }
+      section { page-break-inside: avoid; }
+      .stat-row { page-break-inside: avoid; }
+    }
+
+    /* ─── BASE ─────────────────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:       #C4902A;
+      --gold-light: #E8B84B;
+      --navy:       #0D2045;
+      --charcoal:   #1C1712;
+      --dark:       #2C2926;
+      --mid:        #5A5650;
+      --soft:       #8A8680;
+      --rule:       #E2DDD6;
+      --bg-tint:    #FAFAF8;
+      --bg-accent:  #F5F2EC;
+    }
+
+    html, body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.65;
+      color: var(--dark);
+      background: #F0EDE8;
+    }
+
+    /* ─── SCREEN WRAPPER ───────────────────────────────────────────────────── */
+    .doc-wrap {
+      max-width: 8.5in;
+      margin: 0 auto;
+      background: #fff;
+      box-shadow: 0 4px 40px rgba(0,0,0,0.15);
+    }
+
+    @media print {
+      .doc-wrap { box-shadow: none; }
+    }
+
+    /* ─── COVER ────────────────────────────────────────────────────────────── */
+    .cover {
+      background: linear-gradient(160deg, #07112B 0%, #0E1B10 45%, #1C1712 100%);
+      color: #F8F5F0;
+      padding: 1.1in 0.85in 0.85in;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: -10%; right: -5%;
+      width: 55%; height: 80%;
+      background: radial-gradient(ellipse, rgba(196,144,42,0.10) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .cover::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, #E8B84B 40%, #C4902A 60%, transparent);
+    }
+
+    .cover-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.6in;
+    }
+
+    .cover-logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .cover-house {
+      width: 38px; height: 38px;
+      filter: drop-shadow(0 0 10px rgba(196,144,42,0.55));
+    }
+
+    .cover-brand {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cover-brand-main {
+      font-size: 15pt;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      background: linear-gradient(135deg, #F8F5F0 30%, #E8B84B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .cover-brand-sub {
+      font-size: 7.5pt;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(248,245,240,0.45);
+      margin-top: 3px;
+    }
+
+    .cover-date {
+      font-size: 8pt;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(248,245,240,0.4);
+      text-align: right;
+    }
+
+    .cover-doc-type {
+      font-size: 8pt;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      margin-bottom: 14px;
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    .cover h1 {
+      font-size: 28pt;
+      font-weight: 700;
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin-bottom: 16px;
+      background: linear-gradient(135deg, #F8F5F0 50%, #E8B84B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .cover-subtitle {
+      font-size: 11pt;
+      color: rgba(248,245,240,0.6);
+      letter-spacing: 0.04em;
+      margin-bottom: 32px;
+    }
+
+    .cover-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .cover-tag {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 100px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+    }
+
+    .cover-tag.solid {
+      background: rgba(196,144,42,0.2);
+      border: 1px solid rgba(196,144,42,0.4);
+      color: var(--gold-light);
+    }
+
+    .cover-tag.ghost {
+      border: 1px solid rgba(255,255,255,0.18);
+      color: rgba(248,245,240,0.6);
+    }
+
+    /* ─── BODY ─────────────────────────────────────────────────────────────── */
+    .body { padding: 0.6in 0.85in 0.8in; }
+
+    /* ─── SECTION HEADERS ──────────────────────────────────────────────────── */
+    .section-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 36px 0 18px;
+    }
+
+    .section-head:first-child { margin-top: 0; }
+
+    .section-num {
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #B8821E, #E8B84B);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 9pt;
+      font-weight: 700;
+      color: #1C1409;
+      flex-shrink: 0;
+    }
+
+    .section-head h2 {
+      font-size: 14pt;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.01em;
+    }
+
+    .section-rule {
+      height: 1px;
+      background: linear-gradient(90deg, var(--gold), var(--rule) 60%, transparent);
+      margin-bottom: 18px;
+    }
+
+    /* ─── PARAGRAPH ────────────────────────────────────────────────────────── */
+    p {
+      color: #3D3A36;
+      margin-bottom: 11px;
+      font-size: 10pt;
+      line-height: 1.68;
+    }
+
+    p:last-child { margin-bottom: 0; }
+
+    .lead {
+      font-size: 11.5pt;
+      color: var(--dark);
+      font-weight: 500;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    /* ─── ADVANCEMENT CARDS ────────────────────────────────────────────────── */
+    .advance-list {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-bottom: 6px;
+    }
+
+    .advance-item {
+      display: flex;
+      gap: 14px;
+      background: var(--bg-tint);
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 8px 8px 0;
+      padding: 14px 16px;
+    }
+
+    .advance-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      background: linear-gradient(135deg, rgba(196,144,42,0.15), rgba(196,144,42,0.05));
+      border: 1px solid rgba(196,144,42,0.25);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    .advance-text h4 {
+      font-size: 10pt;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+
+    .advance-text p {
+      font-size: 9.5pt;
+      color: var(--mid);
+      margin: 0;
+      line-height: 1.55;
+    }
+
+    /* ─── NEEDED TABLE ─────────────────────────────────────────────────────── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9.5pt;
+      margin-bottom: 6px;
+    }
+
+    thead tr {
+      background: var(--navy);
+      color: #fff;
+    }
+
+    thead th {
+      padding: 9px 14px;
+      text-align: left;
+      font-size: 8pt;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    tbody tr { border-bottom: 1px solid var(--rule); }
+    tbody tr:nth-child(odd)  { background: #fff; }
+    tbody tr:nth-child(even) { background: var(--bg-tint); }
+
+    tbody td {
+      padding: 10px 14px;
+      color: #3D3A36;
+      vertical-align: top;
+    }
+
+    tbody td:first-child { font-weight: 600; color: var(--dark); width: 28%; }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 100px;
+      font-size: 7.5pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .status-done    { background: #E8F5EE; color: #2E7D52; border: 1px solid #A8D5B8; }
+    .status-pending { background: #FFF3E0; color: #B8560A; border: 1px solid #FFCB82; }
+    .status-partial { background: #EEF2FF; color: #3A50A0; border: 1px solid #B0BFFF; }
+
+    /* ─── WOW SUGGESTIONS ──────────────────────────────────────────────────── */
+    .suggestion-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .suggestion-card {
+      background: var(--bg-accent);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      padding: 20px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .suggestion-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    }
+
+    .suggestion-num {
+      font-size: 28pt;
+      font-weight: 800;
+      color: rgba(196,144,42,0.15);
+      line-height: 1;
+      margin-bottom: 6px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .suggestion-card h3 {
+      font-size: 11pt;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
+      line-height: 1.25;
+    }
+
+    .suggestion-card p {
+      font-size: 9.5pt;
+      color: var(--mid);
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .suggestion-card .sub-label {
+      display: inline-block;
+      margin-bottom: 10px;
+      font-size: 7.5pt;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    /* ─── LESSON BOX ───────────────────────────────────────────────────────── */
+    .lesson-box {
+      background: linear-gradient(135deg, #07112B, #0E1B10);
+      color: #F8F5F0;
+      border-radius: 10px;
+      padding: 24px 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .lesson-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, #E8B84B 40%, #C4902A 60%, transparent);
+    }
+
+    .lesson-box::after {
+      content: '"';
+      position: absolute;
+      top: -14px; right: 18px;
+      font-size: 120pt;
+      color: rgba(196,144,42,0.07);
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none;
+    }
+
+    .lesson-eyebrow {
+      font-size: 7.5pt;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold-light);
+      font-weight: 700;
+      margin-bottom: 12px;
+      opacity: 0.9;
+    }
+
+    .lesson-box h3 {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #F8F5F0;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    .lesson-box p {
+      color: rgba(248,245,240,0.72);
+      font-size: 10pt;
+      line-height: 1.68;
+      margin-bottom: 10px;
+    }
+
+    /* ─── SNAPSHOT ROW ─────────────────────────────────────────────────────── */
+    .snapshot-row {
+      display: flex;
+      gap: 12px;
+      margin: 18px 0;
+    }
+
+    .snapshot-item {
+      flex: 1;
+      background: var(--bg-tint);
+      border: 1px solid var(--rule);
+      border-radius: 8px;
+      padding: 14px 14px 12px;
+      text-align: center;
+    }
+
+    .snapshot-item .snap-num {
+      font-size: 20pt;
+      font-weight: 700;
+      color: var(--gold);
+      line-height: 1;
+      margin-bottom: 5px;
+    }
+
+    .snapshot-item .snap-label {
+      font-size: 7.5pt;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--soft);
+    }
+
+    /* ─── FOOTER ───────────────────────────────────────────────────────────── */
+    .doc-footer {
+      background: var(--navy);
+      color: rgba(248,245,240,0.4);
+      padding: 18px 0.85in;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 8pt;
+      letter-spacing: 0.06em;
+    }
+
+    .doc-footer strong { color: rgba(248,245,240,0.7); }
+
+    /* ─── PRINT BUTTON (screen only) ───────────────────────────────────────── */
+    .print-btn {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      background: linear-gradient(135deg, #B8821E, #E8B84B);
+      color: #1C1409;
+      border: none;
+      border-radius: 100px;
+      padding: 13px 28px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 6px 24px rgba(196,144,42,0.45);
+      z-index: 999;
+      transition: transform 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    .print-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 32px rgba(196,144,42,0.55);
+    }
+  </style>
+</head>
+<body>
+
+<button class="print-btn no-print" onclick="window.print()">Save as PDF</button>
+
+<div class="doc-wrap">
+
+  <!-- ═══════════════════════════ COVER ══════════════════════════════════════ -->
+  <div class="cover">
+    <div class="cover-top">
+      <div class="cover-logo">
+        <svg class="cover-house" viewBox="0 0 38 38" fill="none">
+          <circle cx="19" cy="19" r="18" fill="rgba(196,144,42,0.08)"/>
+          <path d="M19 6L5 17h4v12h6.5V22h7v7H28V17h4L19 6z" fill="url(#cg)" opacity="0.93"/>
+          <rect x="16" y="22" width="6" height="7" rx="0.8" fill="rgba(7,17,43,0.7)"/>
+          <defs>
+            <linearGradient id="cg" x1="5" y1="6" x2="33" y2="29">
+              <stop offset="0%" stop-color="#E8B84B"/>
+              <stop offset="100%" stop-color="#9A6B18"/>
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="cover-brand">
+          <span class="cover-brand-main">Land Home</span>
+          <span class="cover-brand-sub">Financial Services, Inc.</span>
+        </div>
+      </div>
+      <div class="cover-date">April 2026 &nbsp;·&nbsp; NMLS #1796</div>
+    </div>
+
+    <div class="cover-doc-type">Internal Project Report</div>
+    <h1>Investor Match<br>Engine</h1>
+    <p class="cover-subtitle">Development Recap, Build Status &amp; Strategic Recommendations</p>
+
+    <div class="cover-tags">
+      <span class="cover-tag solid">Phase 1 Complete</span>
+      <span class="cover-tag ghost">Non-QM Lending Tool</span>
+      <span class="cover-tag ghost">3 Investors Loaded</span>
+      <span class="cover-tag ghost">Web Application</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════ BODY ═══════════════════════════════════════ -->
+  <div class="body">
+
+    <!-- ── PROJECT OVERVIEW ─────────────────────────────────────────────── -->
+    <div class="section-head">
+      <div class="section-num">01</div>
+      <h2>Project Overview</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p class="lead">
+      The LHFS Investor Match Engine is a purpose-built internal web application that allows
+      loan officers to instantly identify which investors are eligible for a given non-QM loan
+      scenario — replacing manual matrix lookups with a dynamic, intelligent matching system.
+    </p>
+
+    <p>
+      Built entirely as a self-contained HTML application (no server, no dependencies, no login required),
+      the tool runs directly in any browser and can be distributed as a single file. The interface was
+      designed from scratch using the modernized LHFS brand language — deep navy/charcoal glass surfaces,
+      amber gold accents, and a clean, sharp UI system that reflects the updated visual identity.
+    </p>
+
+    <div class="snapshot-row">
+      <div class="snapshot-item">
+        <div class="snap-num">3</div>
+        <div class="snap-label">Investors Loaded</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-num">5</div>
+        <div class="snap-label">Input Dimensions</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-num">7</div>
+        <div class="snap-label">Program Matrices</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-num">1</div>
+        <div class="snap-label">File. No Install.</div>
+      </div>
+    </div>
+
+    <!-- ── ADVANCEMENTS ──────────────────────────────────────────────────── -->
+    <div class="section-head" style="margin-top:32px;">
+      <div class="section-num">02</div>
+      <h2>Advancements Made</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <div class="advance-list">
+
+      <div class="advance-item">
+        <div class="advance-icon">🏗️</div>
+        <div class="advance-text">
+          <h4>Full Glassmorphism UI — Built from Brand Identity</h4>
+          <p>Designed a complete modern UI system from the LHFS brand palette — deep navy backgrounds, frosted glass cards with backdrop blur, amber gold glows, animated gradient CTA buttons, and spaced all-caps labels. The investor result cards appear with staggered entry animations and live green pulse indicators.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">🎛️</div>
+        <div class="advance-text">
+          <h4>5-Dimension Scenario Input System</h4>
+          <p>Built a full scenario capture form: Program, Transaction Type, Occupancy, LTV, and FICO. Transaction type features a smooth slide-out panel for Refinance subtypes (Cash-Out / Rate &amp; Term). DSCR program features its own slide-out ratio selector (≥1.00 / &lt;1.00). Occupancy uses a three-pill toggle. Auto-match fires the moment all fields are complete.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">📊</div>
+        <div class="advance-text">
+          <h4>Per-FICO-Tier Lookup Engine (Not a Simple Min/Max)</h4>
+          <p>Built a true matrix lookup engine that finds the highest eligible FICO tier ≤ the borrower's score and returns the exact max LTV for that tier — matching the actual rate sheet logic rather than an approximation. This means results are accurate at every FICO/LTV boundary, not just the extremes.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">📋</div>
+        <div class="advance-text">
+          <h4>Luxury Mortgage — All 3 Programs Loaded from Rate Sheets</h4>
+          <p>Decoded all three Luxury program matrices directly from uploaded JPG/PNG rate sheets: Bank Statement (6 FICO tiers × 3 occupancies × 2 tx types), ITIN (2 tiers × 3 occupancies × 2 tx types), and DSCR (Investment only, 2 DSCR ratio sub-types, 5 FICO tiers). Every cell is derived from the actual matrix images — not estimated.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">🏦</div>
+        <div class="advance-text">
+          <h4>First National ITIN — Loaded from Rate Sheet</h4>
+          <p>Decoded the First National ITIN matrix (FN ITIN.png): Primary and Secondary occupancy only (Investment N/A), FICO tiers 700+ and 680+, with separate max LTVs for Purchase/Rate-Term vs. Cash-Out. Correctly reflects that FN does not offer ITIN for investment properties.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">🧩</div>
+        <div class="advance-text">
+          <h4>Extensible Architecture with Placeholder System</h4>
+          <p>Engineered the investor data structure to support both fully-loaded detailed matrices and lightweight placeholders. As new rate sheets arrive, a new investor or program can be added by filling in a data object — no UI code changes needed. Angel Oak and FN's remaining programs are placeholder-ready.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">🎨</div>
+        <div class="advance-text">
+          <h4>Brand Identity System — Rebuilt &amp; Documented</h4>
+          <p>Rebuilt the brand-identity.html as a full dark-glass document matching the new visual language. Updated brand-identity.md with a dedicated "UI &amp; Digital Design Language" section, the brand evolution narrative ("Sharp &amp; Lucid"), updated color palette with glass surface specs, and new typography guidance for the modernized system.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── WHAT'S STILL NEEDED ───────────────────────────────────────────── -->
+    <div class="page-break"></div>
+
+    <div class="section-head">
+      <div class="section-num">03</div>
+      <h2>What Is Still Needed</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Details</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Luxury — Confirm Programs</td>
+          <td>Verify whether Luxury also offers ITIN in addition to Bank Statement and DSCR. All three matrices are loaded; program list needs verbal confirmation.</td>
+          <td><span class="status-badge status-partial">Verify</span></td>
+        </tr>
+        <tr>
+          <td>First National — DSCR Matrix</td>
+          <td>FN DSCR rate sheet not yet provided. Currently running as a placeholder (max 80% LTV, min 660 FICO). Needs actual matrix image to load precise tiers.</td>
+          <td><span class="status-badge status-pending">Needs Sheet</span></td>
+        </tr>
+        <tr>
+          <td>First National — Bank Statement</td>
+          <td>FN Bank Statement rate sheet not yet provided. Running as placeholder. Needs actual matrix to load.</td>
+          <td><span class="status-badge status-pending">Needs Sheet</span></td>
+        </tr>
+        <tr>
+          <td>Angel Oak — All Programs</td>
+          <td>Angel Oak (DSCR, ITIN, Bank Statement) running entirely as a placeholder. No rate sheets loaded yet. All three program matrices needed.</td>
+          <td><span class="status-badge status-pending">Needs Sheet</span></td>
+        </tr>
+        <tr>
+          <td>Additional Investors</td>
+          <td>Architecture supports adding more investors easily. Identify any additional investors beyond Luxury, First National, and Angel Oak to include.</td>
+          <td><span class="status-badge status-pending">Identify</span></td>
+        </tr>
+        <tr>
+          <td>Loan Amount Caps</td>
+          <td>Each matrix row has loan amount limits (e.g. $3M, $2.5M, $1.5M). Currently not enforced in matching. Adding a Loan Amount input field and cap logic would increase accuracy.</td>
+          <td><span class="status-badge status-partial">Optional Add</span></td>
+        </tr>
+        <tr>
+          <td>LO / Branch Testing</td>
+          <td>Tool needs to be tested by actual loan officers against known scenarios to verify match accuracy before broader distribution.</td>
+          <td><span class="status-badge status-pending">QA Needed</span></td>
+        </tr>
+        <tr>
+          <td>Hosting / Distribution</td>
+          <td>Currently a local HTML file. Decision needed on whether to host on internal network, SharePoint, or keep as a distributed file.</td>
+          <td><span class="status-badge status-pending">Decision</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- ── LESSON LEARNED ────────────────────────────────────────────────── -->
+    <div class="section-head" style="margin-top:36px;">
+      <div class="section-num">04</div>
+      <h2>Lesson Learned</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <div class="lesson-box">
+      <div class="lesson-eyebrow">Key Insight from This Build</div>
+      <h3>A Rate Sheet Is a Lookup Table — Treat It Like One</h3>
+      <p>
+        The first instinct when building a tool like this is to reduce eligibility to two numbers:
+        a minimum FICO and a maximum LTV. Simple, fast, clean. But that's not how a rate sheet
+        actually works — and building it that way would have produced wrong answers at every boundary.
+      </p>
+      <p>
+        A rate sheet is a multi-dimensional lookup table where FICO tier, LTV, transaction type,
+        occupancy, and program all intersect to produce a specific, precise answer. The real insight
+        was encoding that structure faithfully: <strong style="color:#E8B84B;">find the highest
+        eligible FICO tier the borrower qualifies for, then check whether their LTV fits within
+        that tier's ceiling</strong> — not just "is their FICO above some floor?"
+      </p>
+      <p>
+        This distinction matters enormously in practice. A 680 FICO borrower asking for 80% LTV
+        on a DSCR ≥1.00 purchase is eligible at Luxury. A 680 asking for the same on DSCR &lt;1.00
+        is not. A flat min/max check would have approved both. The matrix engine approves only the
+        correct one. That precision is what makes this tool trustworthy for production use —
+        and trustworthiness is the whole point.
+      </p>
+    </div>
+
+    <!-- ── WOW SUGGESTIONS ───────────────────────────────────────────────── -->
+    <div class="section-head" style="margin-top:36px;">
+      <div class="section-num">05</div>
+      <h2>Two Suggestions to Wow the Audience</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <p style="margin-bottom:18px;">
+      These two additions would elevate this tool from an internal utility to a genuine
+      competitive differentiator — the kind of thing that makes a bank president lean forward.
+    </p>
+
+    <div class="suggestion-cards">
+
+      <div class="suggestion-card">
+        <div class="suggestion-num">01</div>
+        <span class="sub-label">Scenario Comparison Mode</span>
+        <h3>Side-by-Side Multi-Scenario Stacker</h3>
+        <p>
+          Let the loan officer build 2–3 scenarios simultaneously and compare eligible investors
+          side-by-side in a single view. For example: "What if we bring the LTV down 5%?" or
+          "Which investors unlock if FICO improves by 20 points?" The tool would instantly show
+          the delta — turning a lookup tool into a live strategy session. This positions the LO
+          as a trusted advisor rather than a document hunter, and directly reflects LHFS's brand
+          value of empowering clients through expert guidance.
+        </p>
+      </div>
+
+      <div class="suggestion-card">
+        <div class="suggestion-num">02</div>
+        <span class="sub-label">Shareable Scenario Summary</span>
+        <h3>One-Click Borrower-Ready Scenario Card</h3>
+        <p>
+          Add a "Generate Summary" button that produces a clean, branded, printable scenario card —
+          LHFS logo, the scenario parameters, and the eligible investors with their key terms.
+          The LO hands it to the borrower or pastes it into an email in seconds. It reinforces
+          LHFS's transparency and professionalism, gives the borrower a tangible artifact from
+          the conversation, and subtly communicates that LHFS has its act together in ways
+          other lenders simply don't.
+        </p>
+      </div>
+
+    </div>
+
+  </div><!-- /body -->
+
+  <!-- ══════════════════════════ SESSION 2 ENTRY ══════════════════════════════ -->
+  <div class="page-break"></div>
+  <div class="body-content" style="padding-top: 48px;">
+
+    <div style="display:flex; align-items:center; gap:14px; margin-bottom:6px;">
+      <div style="font-size:9pt; letter-spacing:0.18em; text-transform:uppercase; color:var(--gold); font-weight:600;">Session 2</div>
+      <div style="flex:1; height:1px; background:var(--rule);"></div>
+      <div style="font-size:9pt; color:var(--soft);">April 2026</div>
+    </div>
+    <h2 style="font-size:18pt; font-weight:700; color:var(--navy); margin-bottom:4px;">Investor Expansion &amp; Data Completion</h2>
+    <p style="color:var(--mid); margin-bottom:28px;">Continued build-out of the investor matrix engine. Replaced Angel Oak with Acra Lending, loaded all remaining source rate sheets, added two new investors, and resolved data gaps from Session 1.</p>
+
+    <!-- Updated snapshot -->
+    <div class="snapshot-row" style="margin-bottom:32px;">
+      <div class="snapshot-item">
+        <div class="snap-num">5</div>
+        <div class="snap-label">Investors Live</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-num">13</div>
+        <div class="snap-label">Rate Sheets Read</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-num">0</div>
+        <div class="snap-label">Angel Oak Traces</div>
+      </div>
+      <div class="snapshot-item">
+        <div class="snap-num">1</div>
+        <div class="snap-label">File. No Install.</div>
+      </div>
+    </div>
+
+    <!-- Advancements -->
+    <div class="section-head">
+      <div class="section-num">S2.01</div>
+      <h2>Advancements This Session</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <div class="advance-list">
+
+      <div class="advance-item">
+        <div class="advance-icon">🔄</div>
+        <div class="advance-text">
+          <h4>Angel Oak Replaced — Acra Lending Fully Loaded</h4>
+          <p>Angel Oak was removed entirely and replaced with Acra Lending as the third investor. All three of Acra's non-QM programs were decoded from source images: Bank Statement (Primary &amp; Secondary, ≤$1.5M tier, with Purchase/Rate-Term sharing an LTV column and Cash-Out separate), ITIN (derived from the Acra ITIN modifier doc), and DSCR (Investment only; Acra does not split by ≥1.00/&lt;1.00 ratio, so the same matrix runs under both keys). Every data point sourced from the actual rate sheets.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">🏦</div>
+        <div class="advance-text">
+          <h4>First National Bank Statement — Placeholder Eliminated</h4>
+          <p>FN Bank Statement was previously running as a flat placeholder (max 80% LTV, min 660 FICO). Decoded the actual matrix from FN BS.png (Near Miss tier, $75K–$1.5M): Primary Purchase/RT up to 85% at FICO 700, Cash-Out up to 80%; Secondary Purchase/RT up to 80% at FICO 700, Cash-Out not offered. Placeholder removed and live matrix installed.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">✂️</div>
+        <div class="advance-text">
+          <h4>First National DSCR — Correctly Removed</h4>
+          <p>First National does not offer a DSCR program. The DSCR placeholder that had been assigned to FN was removed and DSCR was dropped from FN's program list. The engine now returns no DSCR matches for First National rather than a misleading placeholder result. Accuracy over coverage — wrong data is worse than no data.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">🆕</div>
+        <div class="advance-text">
+          <h4>NewRez — Added as Fourth Investor</h4>
+          <p>NewRez added with two programs decoded from source images: Bank Statement (NR BS.png for Primary, NR 2nd Home.jpg for Secondary — structured as loan-amount-tiered matrix; values reflect ≤$1.5M tier; Purchase gets a 720→90% ceiling not shared by Rate &amp; Term) and DSCR (NR DSCR.png, Investment only, both ≥1.00 and &lt;1.00 ratio tiers, with first-time investor FICO 680 floor noted). No Investment BS offered — correctly reflected in the matrix.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">🆕</div>
+        <div class="advance-text">
+          <h4>Deephaven — Added as Fifth Investor</h4>
+          <p>Deephaven added with all three non-QM programs loaded: Bank Statement using the "Alternative Doc" column from DH BS.png (Primary up to 90%, Secondary &amp; Investment up to 85% at FICO 720), ITIN from DH ITIN.png (Primary/Secondary/Investment with separate Purchase, Rate-Term, and Cash-Out paths), and DSCR from DH DSCR.png (Investment only, ratio-split ≥1.00 and 0.75–0.99). Secondary and Investment share the same column in Deephaven's BS and ITIN matrices — faithfully encoded.</p>
+        </div>
+      </div>
+
+      <div class="advance-item">
+        <div class="advance-icon">📐</div>
+        <div class="advance-text">
+          <h4>DSCR Program Strategy Clarified</h4>
+          <p>Confirmed with stakeholder that Bank Statement investment loans are not a standard product — DSCR is the appropriate vehicle for investment properties across the board. This shapes how future investor programs are expected to be structured. Four of five current investors now carry live DSCR matrices; First National correctly has none.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Updated needs table -->
+    <div class="section-head" style="margin-top:32px;">
+      <div class="section-num">S2.02</div>
+      <h2>What Is Still Needed</h2>
+    </div>
+    <div class="section-rule"></div>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Details</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Loan Amount Input &amp; Cap Enforcement</td>
+          <td>All matrices are tiered by loan amount (≤$1M, ≤$1.5M, ≤$2M, etc.). Currently the tool uses the ≤$1.5M tier values as a baseline and does not enforce caps. Adding a Loan Amount field would enable precise tier routing and eliminate edge-case overestimates.</td>
+          <td><span class="status-badge status-partial">Optional Add</span></td>
+        </tr>
+        <tr>
+          <td>LO / Branch Testing</td>
+          <td>Tool should be validated by practicing loan officers against known approved and declined scenarios before broader distribution. Matrix accuracy is only confirmed through real-world QA.</td>
+          <td><span class="status-badge status-pending">QA Needed</span></td>
+        </tr>
+        <tr>
+          <td>Hosting / Distribution Decision</td>
+          <td>Currently a local single-file HTML app. Decision needed: internal network share, SharePoint, hosted URL, or distributed file. No server infrastructure required regardless of choice.</td>
+          <td><span class="status-badge status-pending">Decision</span></td>
+        </tr>
+        <tr>
+          <td>Additional Investors</td>
+          <td>Architecture remains open. Any new investor can be added by providing rate sheet images — no UI changes required. Identify additional investors to include as needed.</td>
+          <td><span class="status-badge status-partial">Open</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div><!-- /session 2 -->
+
+  <!-- ═══════════════════════════ FOOTER ═════════════════════════════════════ -->
+  <div class="doc-footer">
+    <span><strong>Land Home Financial Services, Inc.</strong> &nbsp;·&nbsp; NMLS #1796</span>
+    <span>Investor Match Engine — Project Recap &nbsp;·&nbsp; April 2026</span>
+    <span>Internal Use Only</span>
+  </div>
+
+</div><!-- /doc-wrap -->
+
+</body>
+</html>

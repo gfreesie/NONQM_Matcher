@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brand Identity — Land Home Financial Services, Inc.</title>
+  <meta property="og:type"        content="website"/>
+  <meta property="og:site_name"   content="Land Home Financial Services"/>
+  <meta property="og:title"       content="Brand Identity — Land Home Financial Services"/>
+  <meta property="og:description" content="Visual identity, tone of voice, color palette, and design system for Land Home Financial Services — great since 1988."/>
+  <meta property="og:url"         content="https://gfreesie.github.io/lhfs-investor-match/brand-identity.html"/>
+  <meta property="og:image"       content="https://gfreesie.github.io/lhfs-investor-match/og-image.png"/>
+  <meta property="og:image:width"  content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card"        content="summary_large_image"/>
+  <meta name="twitter:title"       content="Brand Identity — LHFS"/>
+  <meta name="twitter:image"       content="https://gfreesie.github.io/lhfs-investor-match/og-image.png"/>
+  <meta name="theme-color" content="#07112B"/>
+  <style>
+    /* ─── Reset & Base ───────────────────────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --gold:          #C4902A;
+      --gold-light:    #E8B84B;
+      --gold-dim:      rgba(196,144,42,0.18);
+      --navy:          #0D2045;
+      --navy-deep:     #07112B;
+      --charcoal:      #1C1712;
+      --glass-bg:      rgba(255,255,255,0.045);
+      --glass-bg2:     rgba(255,255,255,0.07);
+      --glass-bd:      rgba(196,144,42,0.22);
+      --glass-bd-soft: rgba(255,255,255,0.09);
+      --text-primary:  #F8F5F0;
+      --text-muted:    rgba(248,245,240,0.52);
+      --text-gold:     #E8B84B;
+      --radius:        16px;
+      --radius-sm:     10px;
+      --blur:          blur(22px);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--charcoal);
+      color: var(--text-primary);
+      line-height: 1.7;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ─── Fixed Background ───────────────────────────────────────────────── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 80% 55% at 12% 8%,   rgba(27,58,107,0.50) 0%, transparent 60%),
+        radial-gradient(ellipse 55% 45% at 92% 85%,  rgba(196,144,42,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 100% 70% at 50% 40%, rgba(7,17,43,0.88) 0%, transparent 100%),
+        linear-gradient(160deg, #07112B 0%, #0E1B10 40%, #1C1712 100%);
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0; z-index: 0; pointer-events: none;
+      background-image:
+        radial-gradient(circle at 18% 32%, rgba(196,144,42,0.055) 0%, transparent 38%),
+        radial-gradient(circle at 82% 68%, rgba(27,58,107,0.10) 0%, transparent 42%);
+      animation: ambientPulse 9s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientPulse {
+      from { opacity: 0.5; }
+      to   { opacity: 1; }
+    }
+
+    /* ─── Layout ─────────────────────────────────────────────────────────── */
+    .page { position: relative; z-index: 1; }
+    .container { max-width: 980px; margin: 0 auto; padding: 0 36px; }
+
+    /* ─── Glass Card ─────────────────────────────────────────────────────── */
+    .glass {
+      background: var(--glass-bg);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-bd);
+      border-radius: var(--radius);
+      box-shadow:
+        0 20px 56px rgba(0,0,0,0.45),
+        0 1px 0 rgba(255,255,255,0.07) inset,
+        0 -1px 0 rgba(0,0,0,0.25) inset;
+    }
+
+    .glass-soft {
+      background: var(--glass-bg2);
+      backdrop-filter: var(--blur);
+      -webkit-backdrop-filter: var(--blur);
+      border: 1px solid var(--glass-bd-soft);
+      border-radius: var(--radius-sm);
+    }
+
+    /* ─── HEADER ─────────────────────────────────────────────────────────── */
+    header {
+      position: relative;
+      padding: 72px 0 64px;
+      overflow: hidden;
+    }
+
+    header::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(160deg, rgba(13,32,69,0.55) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .header-inner {
+      position: relative; z-index: 1;
+    }
+
+    .header-eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+
+    .header-logo-wrap {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.10);
+      border-radius: var(--radius-sm);
+      padding: 8px 14px;
+      backdrop-filter: blur(10px);
+    }
+
+    .header-logo-wrap img {
+      height: 52px;
+      display: block;
+    }
+
+    .header-badge {
+      font-size: 10.5px;
+      letter-spacing: 0.26em;
+      text-transform: uppercase;
+      color: var(--text-gold);
+      opacity: 0.85;
+      font-weight: 600;
+    }
+
+    header h1 {
+      font-size: clamp(2.2rem, 5vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, #F8F5F0 40%, #E8B84B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .header-meta {
+      font-size: 13px;
+      color: var(--text-muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 32px;
+    }
+
+    .tagline-strip {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tagline-pill {
+      display: inline-block;
+      padding: 8px 22px;
+      border-radius: 100px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .tagline-pill.primary {
+      background: linear-gradient(135deg, #B8821E, #E8B84B);
+      color: #1C1409;
+      box-shadow: 0 4px 18px rgba(196,144,42,0.35);
+    }
+
+    .tagline-pill.ghost {
+      background: transparent;
+      border: 1px solid rgba(232,184,75,0.35);
+      color: var(--text-gold);
+    }
+
+    /* ─── Section Divider ────────────────────────────────────────────────── */
+    .section-rule {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 52px 0 40px;
+    }
+
+    .section-rule .rule-line {
+      flex: 1; height: 1px;
+      background: linear-gradient(90deg, rgba(196,144,42,0.35), transparent);
+    }
+
+    .section-rule .rule-line.rev {
+      background: linear-gradient(90deg, transparent, rgba(196,144,42,0.35));
+    }
+
+    .section-rule .rule-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 8px rgba(196,144,42,0.6);
+    }
+
+    .section-eyebrow {
+      font-size: 10px;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--text-gold);
+      font-weight: 600;
+      opacity: 0.8;
+      margin-bottom: 10px;
+    }
+
+    h2 {
+      font-size: 1.85rem;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 28px;
+      letter-spacing: -0.01em;
+    }
+
+    p { color: rgba(248,245,240,0.72); margin-bottom: 14px; font-size: 0.95rem; }
+    p:last-child { margin-bottom: 0; }
+
+    /* ─── Blockquote ─────────────────────────────────────────────────────── */
+    blockquote {
+      position: relative;
+      padding: 26px 28px 26px 32px;
+      margin: 28px 0;
+      font-style: italic;
+      font-size: 1.08rem;
+      color: var(--text-primary);
+      line-height: 1.65;
+    }
+
+    blockquote::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: linear-gradient(180deg, var(--gold-light), var(--gold), transparent);
+      border-radius: 2px;
+    }
+
+    blockquote cite {
+      display: block;
+      margin-top: 14px;
+      font-style: normal;
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ─── Values Grid ────────────────────────────────────────────────────── */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+
+    .value-card {
+      padding: 28px 26px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .value-card::after {
+      content: '';
+      position: absolute;
+      top: -30%; left: -10%; width: 70%; height: 70%;
+      background: radial-gradient(ellipse, rgba(196,144,42,0.06) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .value-card h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-gold);
+      margin-bottom: 10px;
+      letter-spacing: 0.03em;
+    }
+
+    .value-card p { font-size: 0.88rem; margin: 0; }
+
+    /* ─── Tags / Pills ───────────────────────────────────────────────────── */
+    .tag-wrap { display: flex; flex-wrap: wrap; gap: 10px; }
+
+    .tag {
+      display: inline-block;
+      padding: 7px 18px;
+      border-radius: 100px;
+      font-size: 12.5px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: rgba(248,245,240,0.75);
+    }
+
+    .tag.accent {
+      background: rgba(196,144,42,0.18);
+      border-color: rgba(196,144,42,0.4);
+      color: var(--text-gold);
+    }
+
+    /* ─── Tone Columns ───────────────────────────────────────────────────── */
+    .tone-cols {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .tone-box {
+      padding: 24px 22px;
+    }
+
+    .tone-box h4 {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+
+    .tone-box.do   h4 { color: #5EE89A; }
+    .tone-box.dont h4 { color: #F08080; }
+
+    .tone-box ul { padding-left: 0; list-style: none; }
+    .tone-box li {
+      font-size: 0.875rem;
+      color: rgba(248,245,240,0.68);
+      margin-bottom: 8px;
+      padding-left: 18px;
+      position: relative;
+    }
+    .tone-box.do   li::before { content: '↗'; position: absolute; left: 0; color: #5EE89A; font-size: 11px; top: 2px; }
+    .tone-box.dont li::before { content: '✕'; position: absolute; left: 0; color: #F08080; font-size: 10px; top: 3px; }
+
+    /* ─── Logo Section ───────────────────────────────────────────────────── */
+    .logo-preview {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 52px;
+      margin-bottom: 20px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius);
+    }
+
+    .logo-preview img { max-height: 100px; }
+
+    .logo-notes {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 12px;
+    }
+
+    .logo-note {
+      padding: 18px 20px;
+      font-size: 0.85rem;
+      color: rgba(248,245,240,0.65);
+      line-height: 1.55;
+    }
+
+    .logo-note strong {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-gold);
+      margin-bottom: 6px;
+    }
+
+    /* ─── Palette ────────────────────────────────────────────────────────── */
+    .palette { display: flex; flex-wrap: wrap; gap: 14px; }
+
+    .swatch {
+      width: 118px;
+      border-radius: var(--radius-sm);
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.09);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    .swatch-color { height: 76px; }
+
+    .swatch-info {
+      background: rgba(255,255,255,0.05);
+      padding: 10px 12px;
+    }
+
+    .swatch-info .name { font-size: 11.5px; font-weight: 700; color: var(--text-primary); margin-bottom: 2px; }
+    .swatch-info .hex  { font-size: 10.5px; color: var(--text-muted); font-family: 'Courier New', monospace; }
+
+    .palette-note {
+      margin-top: 20px;
+      font-size: 0.875rem;
+      color: var(--text-muted);
+    }
+
+    .palette-note strong { color: var(--text-gold); }
+
+    /* ─── Tables ─────────────────────────────────────────────────────────── */
+    .table-wrap {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--glass-bd);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+
+    thead tr {
+      background: rgba(13,32,69,0.7);
+    }
+
+    thead th {
+      padding: 14px 18px;
+      text-align: left;
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-gold);
+      font-weight: 700;
+    }
+
+    tbody tr {
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.15s ease;
+    }
+
+    tbody tr:last-child { border-bottom: none; }
+
+    tbody tr:nth-child(odd)  { background: rgba(255,255,255,0.025); }
+    tbody tr:nth-child(even) { background: rgba(255,255,255,0.01); }
+
+    tbody tr:hover { background: rgba(196,144,42,0.05); }
+
+    tbody td {
+      padding: 13px 18px;
+      color: rgba(248,245,240,0.72);
+      vertical-align: top;
+    }
+
+    tbody td:first-child {
+      font-weight: 600;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+
+    /* ─── Stats Grid ─────────────────────────────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+      gap: 14px;
+    }
+
+    .stat-card {
+      padding: 28px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      inset: 0; border-radius: var(--radius-sm);
+      padding: 1px;
+      background: linear-gradient(135deg, rgba(232,184,75,0.4), rgba(196,144,42,0.05));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor; mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .stat-card .number {
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 8px;
+      background: linear-gradient(135deg, #F8F5F0 20%, #E8B84B 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .stat-card .label {
+      font-size: 10.5px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    /* ─── FOOTER ─────────────────────────────────────────────────────────── */
+    footer {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 40px 32px;
+      margin-top: 64px;
+      border-top: 1px solid rgba(196,144,42,0.15);
+    }
+
+    .footer-logo-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .footer-house {
+      width: 28px; height: 28px;
+      filter: drop-shadow(0 0 6px rgba(196,144,42,0.5));
+    }
+
+    .footer-wordmark {
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      background: linear-gradient(135deg, #F8F5F0, #E8B84B);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .footer-meta {
+      font-size: 11px;
+      color: rgba(248,245,240,0.25);
+      letter-spacing: 0.1em;
+      line-height: 1.9;
+    }
+
+    /* ─── Responsive ─────────────────────────────────────────────────────── */
+    @media (max-width: 620px) {
+      .container { padding: 0 20px; }
+      header { padding: 48px 0 44px; }
+      .tone-cols { grid-template-columns: 1fr; }
+      .palette .swatch { width: 100px; }
+      .logo-preview { padding: 32px 20px; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+<!-- ══════════════════════════════ HEADER ══════════════════════════════════ -->
+<header>
+  <div class="container">
+    <div class="header-inner">
+
+      <div class="header-eyebrow">
+        <div class="header-logo-wrap">
+          <img src="Logo.jpg" alt="Land Home Financial Services" />
+        </div>
+        <span class="header-badge">Brand Identity &amp; Style Guide</span>
+      </div>
+
+      <h1>Land Home Financial<br>Services, Inc.</h1>
+
+      <p class="header-meta">
+        NMLS #1796 &nbsp;·&nbsp; Founded 1988 &nbsp;·&nbsp; Concord, CA &nbsp;·&nbsp; lhfs.com
+      </p>
+
+      <div class="tagline-strip">
+        <span class="tagline-pill primary">Homeownership Starts Here</span>
+        <span class="tagline-pill ghost">Great Since '88</span>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ══ MISSION ══════════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Mission</div>
+  <h2>Why We Exist</h2>
+
+  <p>
+    Land Home Financial Services exists to foster homeownership, build communities, and empower
+    individuals to achieve their dreams — through excellence in service, lasting connections,
+    and a trusted legacy built over more than three decades.
+  </p>
+
+  <blockquote>
+    "There's no joy greater than placing a family into a home — making their dream into a reality."
+    <cite>— Brad Waite, President</cite>
+  </blockquote>
+
+  <!-- ══ VALUES ═══════════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Core Values</div>
+  <h2>What We Stand For</h2>
+
+  <div class="values-grid">
+    <div class="glass value-card">
+      <h3>Community</h3>
+      <p>Providing tailored home loans that support individuals, families, and the neighborhoods they call home.</p>
+    </div>
+    <div class="glass value-card">
+      <h3>Integrity</h3>
+      <p>Serving as a beacon of trust, accountability, and honesty in every client interaction and business decision.</p>
+    </div>
+    <div class="glass value-card">
+      <h3>Transparency</h3>
+      <p>Building lasting trust through open, honest, and clear communication at every step of the lending journey.</p>
+    </div>
+  </div>
+
+  <!-- ══ PERSONALITY ══════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Brand Personality</div>
+  <h2>How We Show Up</h2>
+
+  <div class="tag-wrap" style="margin-bottom:24px;">
+    <span class="tag accent">Trustworthy</span>
+    <span class="tag accent">Approachable</span>
+    <span class="tag accent">Expert</span>
+    <span class="tag">Community-Driven</span>
+    <span class="tag">Empowering</span>
+    <span class="tag">Heritage-Rooted</span>
+    <span class="tag">Sharp &amp; Lucid</span>
+  </div>
+
+  <p>
+    LHFS carries 37 years of community trust into a sharper, more confident era. We are the same
+    wholesome lender that has guided families home since 1988 — now communicating with the clarity,
+    precision, and presence that today's borrower expects. Warmth and expertise are not opposites here.
+    We hold both.
+  </p>
+
+  <!-- ══ TONE OF VOICE ════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Tone of Voice</div>
+  <h2>How We Communicate</h2>
+
+  <p>Our voice is professional yet warm — never cold, never corporate. We make the complex feel
+     manageable and the journey feel supported. Updated for today: concise, direct, and confident
+     without sacrificing genuine human care.</p>
+
+  <div class="tone-cols" style="margin-top:24px;">
+    <div class="glass-soft tone-box do">
+      <h4>Use</h4>
+      <ul>
+        <li>Dream, family, community, together, home</li>
+        <li>Trusted, reliable, experienced, proven</li>
+        <li>Clear, plain-language explanations</li>
+        <li>Encouraging, forward-looking language</li>
+        <li>Confident — grounded in 37 years of results</li>
+      </ul>
+    </div>
+    <div class="glass-soft tone-box dont">
+      <h4>Avoid</h4>
+      <ul>
+        <li>Unexplained mortgage jargon</li>
+        <li>Impersonal or institutional language</li>
+        <li>Overly promotional or salesy tone</li>
+        <li>Urgency tactics or pressure language</li>
+        <li>Generic copy that could belong to anyone</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ══ VISUAL IDENTITY — LOGO ═══════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Visual Identity</div>
+  <h2>Logo</h2>
+
+  <div class="logo-preview">
+    <img src="Logo.jpg" alt="LHFS Logo" />
+  </div>
+
+  <div class="logo-notes">
+    <div class="glass-soft logo-note">
+      <strong>Wordmark</strong>
+      "Land Home" in a classic serif script — refined and trustworthy. "FINANCIAL SERVICES, INC." in spaced all-caps beneath.
+    </div>
+    <div class="glass-soft logo-note">
+      <strong>Icon</strong>
+      A warm amber/gold house nestled between the two words — the bridge between land and home. The brand's most distinctive mark.
+    </div>
+    <div class="glass-soft logo-note">
+      <strong>Feel</strong>
+      Heritage meets sharp precision. The logo is the anchor — timeless script meets modern clarity in all applications.
+    </div>
+    <div class="glass-soft logo-note">
+      <strong>Usage</strong>
+      Maintain clear space at all times. Do not alter colors, stretch, or apply filters. On dark surfaces, use the full-color version.
+    </div>
+  </div>
+
+  <!-- ══ COLOR PALETTE ════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Visual Identity</div>
+  <h2>Color Palette</h2>
+
+  <div class="palette">
+    <div class="swatch">
+      <div class="swatch-color" style="background: linear-gradient(160deg,#07112B,#1C1712);"></div>
+      <div class="swatch-info">
+        <div class="name">Deep Field</div>
+        <div class="hex">#07112B → #1C1712</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#C4902A;"></div>
+      <div class="swatch-info">
+        <div class="name">Amber Gold</div>
+        <div class="hex">#C4902A</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#E8B84B;"></div>
+      <div class="swatch-info">
+        <div class="name">Gold Light</div>
+        <div class="hex">#E8B84B</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#0D2045;"></div>
+      <div class="swatch-info">
+        <div class="name">Navy Depth</div>
+        <div class="hex">#0D2045</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:#F8F5F0; border-bottom:1px solid rgba(255,255,255,0.1);"></div>
+      <div class="swatch-info">
+        <div class="name">Warm White</div>
+        <div class="hex">#F8F5F0</div>
+      </div>
+    </div>
+    <div class="swatch">
+      <div class="swatch-color" style="background:rgba(255,255,255,0.07); border:1px solid rgba(196,144,42,0.25);"></div>
+      <div class="swatch-info">
+        <div class="name">Glass Surface</div>
+        <div class="hex">rgba(255,255,255,7%)</div>
+      </div>
+    </div>
+  </div>
+
+  <p class="palette-note" style="margin-top:22px;">
+    <strong>Amber Gold</strong> remains the soul of the brand — the house icon, the call to action, the earned accent.
+    The updated palette places it against <strong>deep navy and charcoal</strong> backgrounds, letting it glow with
+    earned presence rather than compete for space. <strong>Glass surfaces</strong> with backdrop blur replace
+    flat white panels — translucent, layered, and alive.
+  </p>
+
+  <!-- ══ TYPOGRAPHY ═══════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Visual Identity</div>
+  <h2>Typography</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Role</th>
+          <th>Style</th>
+          <th>Application</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Logo / Heritage Display</td>
+          <td>Classic serif or script</td>
+          <td>Logo only — preserve the heritage mark as-is</td>
+        </tr>
+        <tr>
+          <td>Headlines</td>
+          <td>Bold sans-serif, tight tracking</td>
+          <td>Section titles, hero copy, campaign statements</td>
+        </tr>
+        <tr>
+          <td>Body Copy</td>
+          <td>Clean, readable sans-serif</td>
+          <td>All written communications, web, email</td>
+        </tr>
+        <tr>
+          <td>Labels / Eyebrows</td>
+          <td>All-caps, wide-spaced sans-serif</td>
+          <td>Section markers, tags, UI labels — 0.20em+ spacing</td>
+        </tr>
+        <tr>
+          <td>Data / Figures</td>
+          <td>Tabular numeric sans-serif</td>
+          <td>Rates, stats, loan parameters — legibility first</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ IMAGERY ═══════════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Visual Identity</div>
+  <h2>Imagery</h2>
+
+  <div class="tag-wrap" style="margin-bottom:20px;">
+    <span class="tag">Real Families</span>
+    <span class="tag">Warm Natural Light</span>
+    <span class="tag">Diverse Representation</span>
+    <span class="tag">All Home Types</span>
+    <span class="tag">Authentic Moments</span>
+    <span class="tag">No Stock Clichés</span>
+  </div>
+
+  <p>
+    Imagery should feel genuine and aspirational — not staged. Feature people of all
+    backgrounds in real home environments: traditional, manufactured, renovated, newly built.
+    Warm, natural light reinforces the brand's welcoming character. On dark digital surfaces,
+    imagery should feel cinematic and grounded — not clinical.
+  </p>
+
+  <!-- ══ SERVICES ══════════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Services</div>
+  <h2>What We Offer</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Service</th><th>Description</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Home Purchase</td><td>Loans for buyers purchasing a primary residence across all 50 states.</td></tr>
+        <tr><td>Refinancing</td><td>Rate and term refinance, cash-out refinance for existing homeowners.</td></tr>
+        <tr><td>Manufactured Home</td><td>Specialized lending for manufactured and modular home buyers.</td></tr>
+        <tr><td>Reverse Mortgages</td><td>Home equity solutions for eligible senior homeowners.</td></tr>
+        <tr><td>Renovation Loans</td><td>Financing for improvements, upgrades, and construction projects.</td></tr>
+        <tr><td>Community Lending</td><td>Affordable housing programs for underserved markets.</td></tr>
+        <tr><td>Insurance Services</td><td>Through LHF Insurance — protecting the homes LHFS helps finance.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ AUDIENCE ══════════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Target Audience</div>
+  <h2>Who We Serve</h2>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr><th>Segment</th><th>Profile</th><th>Key Need</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>First-Time Buyers</td><td>Individuals entering homeownership for the first time.</td><td>Education, guidance, and reassurance.</td></tr>
+        <tr><td>Existing Homeowners</td><td>Owners seeking to refinance or access equity.</td><td>Better rates, cash access, loan restructuring.</td></tr>
+        <tr><td>Manufactured Home Buyers</td><td>Buyers seeking affordable housing options.</td><td>Specialized lending mainstream lenders don't offer.</td></tr>
+        <tr><td>Retirees</td><td>Seniors exploring reverse mortgage options.</td><td>Supplemental income through home equity.</td></tr>
+        <tr><td>Real Estate Professionals</td><td>Agents and builders seeking a reliable partner.</td><td>Speed, reliability, and program breadth.</td></tr>
+        <tr><td>Underserved Communities</td><td>Borrowers historically excluded from mainstream lending.</td><td>Accessible, equitable pathways to ownership.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ══ STATS ═════════════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Key Differentiators</div>
+  <h2>By the Numbers</h2>
+
+  <div class="stats-grid">
+    <div class="glass-soft stat-card">
+      <div class="number">90%</div>
+      <div class="label">Loan Retention Rate</div>
+    </div>
+    <div class="glass-soft stat-card">
+      <div class="number">134</div>
+      <div class="label">Programs Offered Annually</div>
+    </div>
+    <div class="glass-soft stat-card">
+      <div class="number">$3K</div>
+      <div class="label">Loyalty Closing Credit</div>
+    </div>
+    <div class="glass-soft stat-card">
+      <div class="number">8</div>
+      <div class="label">Housing Authorities</div>
+    </div>
+    <div class="glass-soft stat-card">
+      <div class="number">50</div>
+      <div class="label">States Licensed</div>
+    </div>
+    <div class="glass-soft stat-card">
+      <div class="number">37+</div>
+      <div class="label">Years of Trust</div>
+    </div>
+  </div>
+
+  <!-- ══ CERTIFICATIONS ════════════════════════════════════════════════════ -->
+  <div class="section-rule">
+    <div class="rule-line rev"></div>
+    <div class="rule-dot"></div>
+    <div class="rule-line"></div>
+  </div>
+
+  <div class="section-eyebrow">Credentials</div>
+  <h2>Certifications &amp; Affiliations</h2>
+
+  <div class="tag-wrap">
+    <span class="tag accent">Equal Housing Lender</span>
+    <span class="tag accent">Fannie Mae Approved</span>
+    <span class="tag accent">Freddie Mac Approved</span>
+    <span class="tag">MBA Member</span>
+    <span class="tag">Cybersecurity Cert — Platinum</span>
+    <span class="tag">NMLS #1796</span>
+  </div>
+
+  <div style="height: 20px;"></div>
+
+</div><!-- /container -->
+
+<!-- ══ FOOTER ════════════════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-logo-row">
+    <svg class="footer-house" viewBox="0 0 28 28" fill="none">
+      <path d="M14 3L2 12.5h3v10h5.5V17h7v5.5H23v-10h3L14 3z" fill="url(#fg)" opacity="0.9"/>
+      <rect x="11.5" y="17" width="5" height="5.5" rx="0.5" fill="rgba(7,17,43,0.7)"/>
+      <defs>
+        <linearGradient id="fg" x1="2" y1="3" x2="26" y2="23" gradientUnits="userSpaceOnUse">
+          <stop offset="0%" stop-color="#E8B84B"/>
+          <stop offset="100%" stop-color="#9A6B18"/>
+        </linearGradient>
+      </defs>
+    </svg>
+    <span class="footer-wordmark">Land Home Financial Services, Inc.</span>
+  </div>
+  <div class="footer-meta">
+    Brand Identity &amp; Style Guide &nbsp;·&nbsp; Prepared April 2026 &nbsp;·&nbsp; NMLS #1796<br>
+    Concord, CA &nbsp;·&nbsp; lhfs.com &nbsp;·&nbsp; 800-672-9470
+  </div>
+</footer>
+
+</div><!-- /page -->
+</body>
+</html>
